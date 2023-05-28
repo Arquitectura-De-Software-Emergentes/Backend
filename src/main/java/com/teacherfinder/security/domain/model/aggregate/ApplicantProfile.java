@@ -11,9 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.teacherfinder.security.domain.model.ValueObjects.AcademicInformation;
-import com.teacherfinder.security.domain.model.ValueObjects.ContactInformation;
-import com.teacherfinder.security.domain.model.ValueObjects.PersonalInformation;
+import com.teacherfinder.security.domain.model.valueObjects.AcademicInformation;
+import com.teacherfinder.security.domain.model.valueObjects.ContactInformation;
+import com.teacherfinder.security.domain.model.valueObjects.PersonalInformation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

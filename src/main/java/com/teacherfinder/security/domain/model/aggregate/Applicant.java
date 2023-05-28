@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.teacherfinder.security.domain.model.ValueObjects.CurriculumVitae;
+import com.teacherfinder.security.domain.model.valueObjects.CurriculumVitae;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
