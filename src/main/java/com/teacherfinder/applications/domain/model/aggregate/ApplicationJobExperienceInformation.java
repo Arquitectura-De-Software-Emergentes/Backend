@@ -1,16 +1,13 @@
-package com.teacherfinder.security.domain.model.aggregate;
+package com.teacherfinder.applications.domain.model.aggregate;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.teacherfinder.security.domain.model.valueObjects.CurriculumVitae;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,17 +21,18 @@ import lombok.With;
 @NoArgsConstructor
 @With
 @Entity
-@Table(name = "applicants")
-public class Applicant {
+@Table(name = "application_job_experience_information")
+public class ApplicationJobExperienceInformation {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long applicantId;
+    private Long jobExperienceInformationId;
 
-    @Embedded
-    private CurriculumVitae cv;
+    private String company;
+    private String position;
+    private String time;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "applicant_profile_id", referencedColumnName = "applicantProfileId")
-    private ApplicantProfile applicantProfile;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "applicant_profile_id", nullable = true)
+    private ApplicationApplicantProfile applicantProfile;
 }
