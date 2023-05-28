@@ -4,5 +4,5 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Course {
-    private Long courseId;
+    private String course;
 }
