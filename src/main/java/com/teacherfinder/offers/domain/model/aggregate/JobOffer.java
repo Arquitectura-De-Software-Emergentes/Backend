@@ -1,13 +1,11 @@
-package com.teacherfinder.Offers.domain.model.aggregate;
+package com.teacherfinder.offers.domain.model.aggregate;
 
-import com.teacherfinder.Offers.domain.model.Enum.Availability;
-import com.teacherfinder.Offers.domain.model.valueObject.Money;
-import com.teacherfinder.Offers.domain.model.valueObject.RecruiterId;
+import com.teacherfinder.offers.domain.model.Enum.Availability;
+import com.teacherfinder.offers.domain.model.valueObject.Money;
+import com.teacherfinder.offers.domain.model.valueObject.RecruiterId;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.lang.model.util.AbstractAnnotationValueVisitor6;
 import javax.persistence.*;
 import java.util.Date;
 

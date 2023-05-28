@@ -1,4 +1,4 @@
-package com.teacherfinder.Security.Domain.Model.aggregate;
+package com.teacherfinder.security.domain.model.aggregate;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.teacherfinder.Security.Domain.Model.ValueObjects.AcademicInformation;
-import com.teacherfinder.Security.Domain.Model.ValueObjects.ContactInformation;
-import com.teacherfinder.Security.Domain.Model.ValueObjects.PersonalInformation;
+import com.teacherfinder.security.domain.model.ValueObjects.AcademicInformation;
+import com.teacherfinder.security.domain.model.ValueObjects.ContactInformation;
+import com.teacherfinder.security.domain.model.ValueObjects.PersonalInformation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

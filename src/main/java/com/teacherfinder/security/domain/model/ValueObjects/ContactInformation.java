@@ -1,7 +1,6 @@
-package com.teacherfinder.Security.Domain.Model.ValueObjects;
+package com.teacherfinder.security.domain.model.ValueObjects;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Lob;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,10 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class CurriculumVitae {
-
-    private String title;
-
-    @Lob
-    private Byte[] cv;
+public class ContactInformation {
+    private String phone;
+    private String email;
+    private String mobilePhone;
 }

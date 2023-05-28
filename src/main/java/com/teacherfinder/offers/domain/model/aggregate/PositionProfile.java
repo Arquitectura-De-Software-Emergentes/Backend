@@ -1,9 +1,9 @@
-package com.teacherfinder.Offers.domain.model.aggregate;
+package com.teacherfinder.offers.domain.model.aggregate;
 
 
-import com.teacherfinder.Offers.domain.model.Enum.Modality;
-import com.teacherfinder.Offers.domain.model.Enum.Type;
-import com.teacherfinder.Offers.domain.model.valueObject.Course;
+import com.teacherfinder.offers.domain.model.Enum.Modality;
+import com.teacherfinder.offers.domain.model.Enum.Type;
+import com.teacherfinder.offers.domain.model.valueObject.Course;
 import lombok.Getter;
 import lombok.Setter;
 

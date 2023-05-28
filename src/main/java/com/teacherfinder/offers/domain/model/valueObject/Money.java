@@ -1,6 +1,6 @@
-package com.teacherfinder.Offers.domain.model.valueObject;
+package com.teacherfinder.offers.domain.model.valueObject;
 
-import com.teacherfinder.Offers.domain.model.Enum.Currency;
+import com.teacherfinder.offers.domain.model.Enum.Currency;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,4 +1,4 @@
-package com.teacherfinder.Security.Domain.Model.ValueObjects;
+package com.teacherfinder.security.domain.model.ValueObjects;
 
 import java.util.Date;
 
