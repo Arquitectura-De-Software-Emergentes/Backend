@@ -1,4 +1,4 @@
-package com.teacherfinder.security.domain.model.valueObjects;
+package com.teacherfinder.applications.domain.model.valueObjects;
 
 import javax.persistence.Embeddable;
 
@@ -12,8 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class AcademicInformation {
-    private String school;
-    private String specialty;
-    private String reference;
+public class JobOfferId {
+    private Long jobOfferId;
 }

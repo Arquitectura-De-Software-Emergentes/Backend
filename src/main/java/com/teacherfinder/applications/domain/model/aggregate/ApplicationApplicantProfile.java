@@ -1,4 +1,4 @@
-package com.teacherfinder.security.domain.model.aggregate;
+package com.teacherfinder.applications.domain.model.aggregate;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.teacherfinder.security.domain.model.valueObjects.AcademicInformation;
-import com.teacherfinder.security.domain.model.valueObjects.ContactInformation;
-import com.teacherfinder.security.domain.model.valueObjects.PersonalInformation;
+import com.teacherfinder.applications.domain.model.valueObjects.AcademicInformation;
+import com.teacherfinder.applications.domain.model.valueObjects.ContactInformation;
+import com.teacherfinder.applications.domain.model.valueObjects.PersonalInformation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,8 +27,8 @@ import lombok.With;
 @NoArgsConstructor
 @With
 @Entity
-@Table(name = "applicant_profile")
-public class ApplicantProfile {
+@Table(name = "application_applicant_profile")
+public class ApplicationApplicantProfile {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,9 +44,8 @@ public class ApplicantProfile {
     private PersonalInformation personalInformation;
 
     @OneToMany(mappedBy = "applicantProfile")
-    private List<JobExperienceInformation> jobExperienceInformations;
+    private List<ApplicationJobExperienceInformation> jobExperienceInformations;
 
     @OneToOne(mappedBy = "applicantProfile")
-    private Applicant applicant;
-
+    private Application application;
 }

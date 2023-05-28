@@ -1,4 +1,4 @@
-package com.teacherfinder.security.domain.model.ValueObjects;
+package com.teacherfinder.security.domain.model.valueObjects;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Lob;
