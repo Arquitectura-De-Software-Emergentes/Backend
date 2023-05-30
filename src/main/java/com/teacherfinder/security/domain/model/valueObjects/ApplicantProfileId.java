@@ -1,7 +1,10 @@
 package com.teacherfinder.security.domain.model.valueObjects;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
-import javax.persistence.Lob;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class CurriculumVitae {
-    @Lob
-    private byte[] data;
+public class ApplicantProfileId implements Serializable{
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long applicantProfileId;   
 }

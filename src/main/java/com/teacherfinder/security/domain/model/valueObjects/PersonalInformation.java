@@ -17,6 +17,7 @@ import lombok.Setter;
 public class PersonalInformation {
     private String name;
     private String lastname;
+    private String dni;
     private Date birthDate;
     private String address;
 }

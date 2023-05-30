@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.teacherfinder.security.domain.model.valueObjects.JobExperienceInformationId;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +28,7 @@ public class JobExperienceInformation {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long jobExperienceInformationId;
+    private JobExperienceInformationId jobExperienceInformationId;
 
     private String company;
     private String position;

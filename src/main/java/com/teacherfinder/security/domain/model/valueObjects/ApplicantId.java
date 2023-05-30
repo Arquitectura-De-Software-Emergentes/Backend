@@ -1,7 +1,8 @@
 package com.teacherfinder.security.domain.model.valueObjects;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
-import javax.persistence.Lob;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class CurriculumVitae {
-    @Lob
-    private byte[] data;
+public class ApplicantId implements Serializable{
+    
+    private Long applicantId;
 }
