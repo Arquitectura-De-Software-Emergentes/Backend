@@ -15,5 +15,5 @@ import lombok.Setter;
 @Embeddable
 public class CurriculumVitae {
     @Lob
-    private byte[] data;
+    private byte[] cv;
 }

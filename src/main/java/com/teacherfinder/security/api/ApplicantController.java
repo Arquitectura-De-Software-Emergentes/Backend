@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +47,7 @@ public class ApplicantController {
     ApplicantMapper mapper;
 
     @PostMapping
-    public ApplicantResource create(CreateApplicantResource createApplicantResource){
+    public ApplicantResource create(@RequestBody CreateApplicantResource createApplicantResource){
 
         Applicant applicant = mapper.toModel(createApplicantResource);
 
@@ -55,17 +56,17 @@ public class ApplicantController {
         return mapper.toResource(response);    
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable("id") Long applicantId, @RequestParam("file") MultipartFile file) {
+    @PutMapping("/cv/{id}")
+    public ResponseEntity<String> uploadCV(@PathVariable("id") Long applicantId, @RequestParam("cv") MultipartFile cv) {
         
         try {
             // Verificar si el archivo es un PDF
-            if (!file.getContentType().equals("application/pdf")) {
+            if (!cv.getContentType().equals("application/pdf")) {
                 return ResponseEntity.badRequest().body("Por favor, selecciona un archivo PDF.");
             }
 
             // Leer el contenido del archivo
-            byte[] contenido = file.getBytes();
+            byte[] contenido = cv.getBytes();
 
             // Crear una instancia de la entidad PdfFile
             CurriculumVitae pdfFile = new CurriculumVitae(contenido);
@@ -80,20 +81,17 @@ public class ApplicantController {
     }
 
     @GetMapping("/cv/{id}")
-    public ResponseEntity<InputStreamResource> downloadPdfFile(@PathVariable Long id) {
+    public ResponseEntity<InputStreamResource> getCV(@PathVariable Long id) {
         // Buscar el archivo PDF en la base de datos por ID
-
-        Applicant applicant = service.getCv(id);
-
-        CurriculumVitae pdfFile = applicant.getCv();
+        CurriculumVitae pdfFile = service.getCv(id);
 
         // Crear un InputStream a partir del contenido del archivo PDF
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(pdfFile.getData());
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(pdfFile.getCv());
 
         // Configurar las cabeceras de la respuesta HTTP
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", ""+applicant.getApplicantId());
+        headers.setContentDispositionFormData("attachment", "CV");
 
         // Crear un InputStreamResource a partir del InputStream
         InputStreamResource inputStreamResource = new InputStreamResource(inputStream);

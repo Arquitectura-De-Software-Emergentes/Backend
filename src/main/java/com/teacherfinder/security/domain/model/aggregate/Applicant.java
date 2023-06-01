@@ -2,11 +2,9 @@ package com.teacherfinder.security.domain.model.aggregate;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,7 +23,7 @@ import lombok.With;
 @With
 @Entity
 @Table(name = "applicants")
-public class Applicant {
+public class Applicant extends User{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +32,6 @@ public class Applicant {
     @Embedded
     private CurriculumVitae cv;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "applicant_profile_id", referencedColumnName = "applicantProfileId")
+    @OneToOne(mappedBy = "applicant")
     private ApplicantProfile applicantProfile;
 }

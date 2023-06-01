@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "recruiters")
-public class Recruiter {
+public class Recruiter extends User{
     @Id
     private Long id;
     @OneToOne
