@@ -1,0 +1,70 @@
+package com.teacherfinder.profile.api.rest;
+
+import com.teacherfinder.profile.application.dto.ApplicantProfileResource;
+import com.teacherfinder.profile.application.dto.CreateApplicantResource;
+import com.teacherfinder.profile.application.dto.UpdateApplicantProfileResource;
+import com.teacherfinder.profile.application.mapper.ApplicantProfileMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.teacherfinder.profile.application.dto.ApplicantResource;
+import com.teacherfinder.profile.application.mapper.ApplicantMapper;
+import com.teacherfinder.profile.domain.model.aggregate.Applicant;
+import com.teacherfinder.profile.domain.model.valueObjects.CurriculumVitae;
+import com.teacherfinder.profile.domain.service.ApplicantService;
+
+@CrossOrigin(origins = "*", methods ={
+    RequestMethod.POST,
+    RequestMethod.GET,
+    RequestMethod.PUT,
+    RequestMethod.DELETE
+})
+
+@RestController
+@RequestMapping("api/v1/applicant")
+public class ApplicantController {
+    
+    @Autowired
+    ApplicantService service;
+
+    @Autowired
+    ApplicantMapper applicantMapper;
+
+    @Autowired
+    ApplicantProfileMapper profileMapper;
+
+    @GetMapping("/{id}/cv")
+    public CurriculumVitae getCV(@PathVariable("id") Long appliacntId) {
+        return service.getCv(appliacntId);
+    }
+    @PostMapping
+    public ApplicantResource create(@RequestBody CreateApplicantResource createApplicantResource){
+
+        Applicant applicant = applicantMapper.toModel(createApplicantResource);
+
+        Applicant response = service.create(applicant);
+
+        return applicantMapper.toResource(response);
+    }
+
+    @PutMapping("/{id}/cv")
+    public CurriculumVitae uploadCV(@PathVariable("id") Long applicantId, @RequestBody CurriculumVitae cv) {
+        
+        return service.uploadCV(applicantId,cv);
+    }
+
+    @PutMapping("/{id}/profile")
+    public ApplicantProfileResource updateProfile(@PathVariable("id") Long applicantId, @RequestBody UpdateApplicantProfileResource updateApplicantProfileResource){
+        return profileMapper.toResource(profileMapper.toModel(updateApplicantProfileResource));
+    }
+
+
+}
