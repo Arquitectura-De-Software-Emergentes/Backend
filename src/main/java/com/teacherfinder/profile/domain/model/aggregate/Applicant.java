@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.teacherfinder.profile.domain.model.entity.ApplicantProfile;
 import com.teacherfinder.profile.domain.model.entity.User;
 import com.teacherfinder.profile.domain.model.valueObjects.CurriculumVitae;
 

@@ -1,4 +1,5 @@
 package com.teacherfinder.profile.domain.model.aggregate;
+import com.teacherfinder.profile.domain.model.entity.InstitutionProfile;
 import com.teacherfinder.profile.domain.model.entity.User;
 import lombok.Getter;
 import lombok.Setter;

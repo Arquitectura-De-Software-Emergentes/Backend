@@ -1,5 +1,7 @@
 package com.teacherfinder.profile.application.dto;
 
+import java.util.List;
+
 import com.teacherfinder.profile.domain.model.valueObjects.AcademicInformation;
 import com.teacherfinder.profile.domain.model.valueObjects.ContactInformation;
 import com.teacherfinder.profile.domain.model.valueObjects.PersonalInformation;
@@ -16,4 +18,5 @@ public class ApplicantProfileResource {
     private ContactInformation contactInformation;
 
     private PersonalInformation personalInformation;
+    private List<JobExperienceInformationResource> jobExperienceInformations;
 }

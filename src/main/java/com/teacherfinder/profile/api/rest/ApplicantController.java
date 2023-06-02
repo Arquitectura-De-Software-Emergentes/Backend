@@ -2,8 +2,12 @@ package com.teacherfinder.profile.api.rest;
 
 import com.teacherfinder.profile.application.dto.ApplicantProfileResource;
 import com.teacherfinder.profile.application.dto.CreateApplicantResource;
+import com.teacherfinder.profile.application.dto.CreateJobExperienceInformationResource;
+import com.teacherfinder.profile.application.dto.JobExperienceInformationResource;
 import com.teacherfinder.profile.application.dto.UpdateApplicantProfileResource;
 import com.teacherfinder.profile.application.mapper.ApplicantProfileMapper;
+import com.teacherfinder.profile.application.mapper.JobExperienceInformationMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,18 +45,28 @@ public class ApplicantController {
     @Autowired
     ApplicantProfileMapper profileMapper;
 
+    @Autowired
+    JobExperienceInformationMapper jobExperienceMapper;
+
     @GetMapping("/{id}/cv")
     public CurriculumVitae getCV(@PathVariable("id") Long appliacntId) {
         return service.getCv(appliacntId);
     }
     @PostMapping
-    public ApplicantResource create(@RequestBody CreateApplicantResource createApplicantResource){
+    public ApplicantResource createApplicant(@RequestBody CreateApplicantResource createApplicantResource){
 
         Applicant applicant = applicantMapper.toModel(createApplicantResource);
 
         Applicant response = service.create(applicant);
 
         return applicantMapper.toResource(response);
+    }
+
+    @PostMapping("/experience")
+    public JobExperienceInformationResource addJobExperience(@RequestBody CreateJobExperienceInformationResource jobExperienceInformationResource){
+
+        return jobExperienceMapper.toResource(service.addJobExperience(jobExperienceMapper.toModel(jobExperienceInformationResource)));
+
     }
 
     @PutMapping("/{id}/cv")
@@ -63,7 +77,7 @@ public class ApplicantController {
 
     @PutMapping("/{id}/profile")
     public ApplicantProfileResource updateProfile(@PathVariable("id") Long applicantId, @RequestBody UpdateApplicantProfileResource updateApplicantProfileResource){
-        return profileMapper.toResource(profileMapper.toModel(updateApplicantProfileResource));
+         return profileMapper.toResource(service.updateProfile(applicantId,profileMapper.toModel(updateApplicantProfileResource)));
     }
 
 

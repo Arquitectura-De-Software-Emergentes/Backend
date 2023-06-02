@@ -1,4 +1,4 @@
-package com.teacherfinder.profile.domain.model.aggregate;
+package com.teacherfinder.profile.domain.model.entity;
 
 import javax.persistence.*;
 

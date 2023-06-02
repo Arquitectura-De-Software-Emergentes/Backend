@@ -1,6 +1,8 @@
 package com.teacherfinder.shared.mapping;
 
 import com.teacherfinder.profile.application.mapper.ApplicantProfileMapper;
+import com.teacherfinder.profile.application.mapper.JobExperienceInformationMapper;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -22,5 +24,10 @@ public class MappingConfiguration {
     @Bean
     public ApplicantProfileMapper applicantProfileMapper(){
         return new ApplicantProfileMapper();
+    }
+
+    @Bean
+    public JobExperienceInformationMapper jobExperienceInformationMapper(){
+        return new JobExperienceInformationMapper();
     }
 }

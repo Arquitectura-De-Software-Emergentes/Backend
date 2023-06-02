@@ -1,8 +1,8 @@
 package com.teacherfinder.profile.application.mapper;
 
-import com.teacherfinder.profile.domain.model.aggregate.ApplicantProfile;
 import com.teacherfinder.profile.application.dto.ApplicantProfileResource;
 import com.teacherfinder.profile.application.dto.UpdateApplicantProfileResource;
+import com.teacherfinder.profile.domain.model.entity.ApplicantProfile;
 import com.teacherfinder.shared.mapping.EnhancedModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -9,9 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.teacherfinder.profile.domain.model.aggregate.ApplicantProfile;
-import com.teacherfinder.profile.domain.model.valueObjects.JobExperienceInformationId;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +26,7 @@ public class JobExperienceInformation {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private JobExperienceInformationId jobExperienceInformationId;
+    private Long jobExperienceInformationId;
 
     private String company;
     private String position;
