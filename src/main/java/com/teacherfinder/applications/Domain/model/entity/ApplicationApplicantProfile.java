@@ -1,4 +1,4 @@
-package com.teacherfinder.applications.domain.model.aggregate;
+package com.teacherfinder.applications.domain.model.entity;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.teacherfinder.applications.domain.model.aggregate.Application;
 import com.teacherfinder.applications.domain.model.valueObjects.AcademicInformation;
 import com.teacherfinder.applications.domain.model.valueObjects.ContactInformation;
 import com.teacherfinder.applications.domain.model.valueObjects.PersonalInformation;

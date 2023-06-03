@@ -1,4 +1,4 @@
-package com.teacherfinder.offers.application;
+package com.teacherfinder.offers.application.service;
 
 import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
 import com.teacherfinder.offers.domain.model.aggregate.PositionProfile;
@@ -8,7 +8,6 @@ import com.teacherfinder.offers.domain.model.services.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.validation.Validator;
 import java.util.Optional;
 @Service
 public class JobOfferServiceImpl implements JobOfferService {
@@ -17,7 +16,6 @@ public class JobOfferServiceImpl implements JobOfferService {
     private  JobOfferRepository jobOfferRepository;
     @Autowired
     PositionProfileRepository positionProfileRepository;
-    private  Validator validator;
 
     public JobOffer createJobOffer(JobOffer jobOffer) {
         PositionProfile positionProfile = jobOffer.getPositionProfile();

@@ -1,4 +1,4 @@
-package com.teacherfinder.applications.domain.model.aggregate;
+package com.teacherfinder.applications.domain.model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
