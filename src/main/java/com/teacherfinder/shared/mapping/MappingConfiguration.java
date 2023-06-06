@@ -6,6 +6,7 @@ import com.teacherfinder.profile.application.mapper.JobExperienceInformationMapp
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.teacherfinder.applications.application.mapper.ApplicationApplicantProfileMapper;
 import com.teacherfinder.applications.application.mapper.ApplicationMapper;
 import com.teacherfinder.profile.application.mapper.ApplicantMapper;
 
@@ -35,5 +36,10 @@ public class MappingConfiguration {
     @Bean
     public ApplicationMapper applicationMapper(){
         return new ApplicationMapper();
+    }
+
+    @Bean
+    public ApplicationApplicantProfileMapper applicationApplicantProfileMapper(){
+        return new ApplicationApplicantProfileMapper();
     }
 }

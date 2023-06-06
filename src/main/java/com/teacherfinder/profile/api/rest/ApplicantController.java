@@ -80,5 +80,10 @@ public class ApplicantController {
          return profileMapper.toResource(service.updateProfile(applicantId,profileMapper.toModel(updateApplicantProfileResource)));
     }
 
+    @GetMapping("/{id}/profile")
+    public ApplicantProfileResource getProfile(@PathVariable("id") Long appliantId){
+        return profileMapper.toResource(service.getApplicantProfile(appliantId));
+    }
+
 
 }

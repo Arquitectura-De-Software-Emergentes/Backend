@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import com.teacherfinder.profile.domain.repository.ApplicantProfileRepository;
 import org.springframework.stereotype.Service;
 
+import com.teacherfinder.profile.domain.factory.ApplicantProfileFactory;
 import com.teacherfinder.profile.domain.model.aggregate.Applicant;
 import com.teacherfinder.profile.domain.model.entity.ApplicantProfile;
 import com.teacherfinder.profile.domain.model.entity.JobExperienceInformation;
@@ -27,14 +28,19 @@ public class ApplicantServiceImpl implements ApplicantService {
     private final ApplicantRepository applicantRepository;
     private final ApplicantProfileRepository profileRepository;
     private final JobExperienceInformationRepository experienceRepository;
+    private final ApplicantProfileFactory profileFactory;
     private final Validator validator;
 
-    public ApplicantServiceImpl(ApplicantRepository applicantRepository, ApplicantProfileRepository profileRepository, JobExperienceInformationRepository experienceRepository,
+   
+
+    public ApplicantServiceImpl(ApplicantRepository applicantRepository, ApplicantProfileRepository profileRepository,
+            JobExperienceInformationRepository experienceRepository, ApplicantProfileFactory profileFactory,
             Validator validator) {
         this.applicantRepository = applicantRepository;
-        this.validator = validator;
         this.profileRepository = profileRepository;
-        this.experienceRepository =experienceRepository;
+        this.experienceRepository = experienceRepository;
+        this.profileFactory = profileFactory;
+        this.validator = validator;
     }
 
     @Override
@@ -89,7 +95,8 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     private void createProfile(Applicant applicant){
-        profileRepository.save(new ApplicantProfile().withApplicant(applicant));
+        ApplicantProfile profile = profileFactory.createProfile(applicant);
+        profileRepository.save(profile);
     }
 
     @Override
@@ -101,6 +108,12 @@ public class ApplicantServiceImpl implements ApplicantService {
             throw new ResourceValidationException(APPLICANT, violations);
 
         return experienceRepository.save(experience);
+    }
+
+    @Override
+    public ApplicantProfile getApplicantProfile(Long applicantId) {
+        return profileRepository.findById(applicantId)
+            .orElseThrow(()->new ResourceNotFoundException(PROFILE,applicantId));
     }
 
 }
