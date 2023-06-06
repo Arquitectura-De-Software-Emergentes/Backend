@@ -3,12 +3,16 @@ package com.teacherfinder.offers.domain.model.aggregate;
 
 import com.teacherfinder.offers.domain.model.Enum.Modality;
 import com.teacherfinder.offers.domain.model.Enum.Type;
-import com.teacherfinder.offers.domain.model.valueObject.Course;
-import lombok.Getter;
-import lombok.Setter;
+import com.teacherfinder.offers.domain.model.valueObjects.Course;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@With
 @Getter
 @Setter
 @Entity
@@ -18,6 +22,11 @@ public class PositionProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @NotBlank
+    private String name;
+
     @Embedded
     private Course course;
 
