@@ -12,7 +12,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "job_offer")
+@Table(name = "job_offers")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class JobOffer {
     @Id
