@@ -1,4 +1,4 @@
-package com.teacherfinder.offers.domain.model.valueObject;
+package com.teacherfinder.offers.domain.model.valueObjects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
