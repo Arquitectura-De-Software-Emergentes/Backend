@@ -14,8 +14,6 @@ import com.teacherfinder.applications.application.mapper.ApplicationApplicantPro
 import com.teacherfinder.applications.domain.factory.ApplicationFactory;
 import com.teacherfinder.applications.domain.model.aggregate.Application;
 import com.teacherfinder.applications.domain.model.entity.ApplicationApplicantProfile;
-import com.teacherfinder.applications.domain.model.valueObjects.ApplicantId;
-import com.teacherfinder.applications.domain.model.valueObjects.JobOfferId;
 import com.teacherfinder.applications.domain.repository.ApplicationApplicantProfileRepository;
 import com.teacherfinder.applications.domain.repository.ApplicationRepository;
 import com.teacherfinder.applications.domain.service.ApplicationService;
@@ -55,14 +53,11 @@ public class ApplicationServiceImpl implements ApplicationService{
 
         validateApplication(applyResource);
 
-        ApplicantId applicantId = new ApplicantId(applyResource.getApplicantId());
-        JobOfferId jobOfferId = new JobOfferId(applyResource.getJobOfferId());
-
-        ApplicationApplicantProfile profile = profileMapper.toApplicationApplicantProfile(profileFacade.getApplicantProfile(applicantId.getApplicantId()));
+        ApplicationApplicantProfile profile = profileMapper.toApplicationApplicantProfile(profileFacade.getApplicantProfile(applyResource.getApplicantId()));
 
         profile = saveProfile(profile);
         
-        Application application = applicationFactory.createApplication(applicantId, jobOfferId, DEFAULT_STATUS, profile);
+        Application application = applicationFactory.createApplication(applyResource.getApplicantId(), applyResource.getJobOfferId(), DEFAULT_STATUS, profile);
 
         return applicationRepository.save(application);
 

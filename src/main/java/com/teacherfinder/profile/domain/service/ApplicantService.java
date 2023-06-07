@@ -3,7 +3,6 @@ package com.teacherfinder.profile.domain.service;
 import com.teacherfinder.profile.domain.model.aggregate.Applicant;
 import com.teacherfinder.profile.domain.model.entity.ApplicantProfile;
 import com.teacherfinder.profile.domain.model.entity.JobExperienceInformation;
-import com.teacherfinder.profile.domain.model.valueObjects.ApplicantId;
 import com.teacherfinder.profile.domain.model.valueObjects.CurriculumVitae;
 
 public interface ApplicantService {
