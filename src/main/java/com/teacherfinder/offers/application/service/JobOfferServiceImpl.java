@@ -12,14 +12,11 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class JobOfferServiceImpl implements JobOfferService {
     private static final String JOB_OFFER  = "JobOffer";
-    private static final String POSITION_PROFILE = "PositionProfile";
-
 
     @Autowired
     private  JobOfferRepository jobOfferRepository;
