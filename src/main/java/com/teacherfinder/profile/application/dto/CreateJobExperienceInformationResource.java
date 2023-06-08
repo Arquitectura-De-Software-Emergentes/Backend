@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class CreateJobExperienceInformationResource {
 
+    private Long jobExperienceInformationId;
     private String company;
     private String position;
     private String time;

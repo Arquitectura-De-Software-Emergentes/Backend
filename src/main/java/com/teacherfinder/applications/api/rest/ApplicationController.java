@@ -30,6 +30,6 @@ public class ApplicationController {
 
     @PostMapping
     public ApplicationResource apply(@RequestBody ApplyResource applyResource){
-        return mapper.toResource(service.apply(applyResource));
+        return mapper.toResource(service.apply(mapper.toApplicationId(applyResource)));
     }
 }

@@ -8,10 +8,11 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import com.teacherfinder.applications.domain.model.entity.ApplicationJobExperienceInformation;
+import com.teacherfinder.applications.domain.model.valueObjects.ApplicationId;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.teacherfinder.applications.application.dto.ApplyResource;
 import com.teacherfinder.applications.application.mapper.ApplicationApplicantProfileMapper;
 import com.teacherfinder.applications.domain.factory.ApplicationFactory;
 import com.teacherfinder.applications.domain.model.aggregate.Application;
@@ -53,26 +54,37 @@ public class ApplicationServiceImpl implements ApplicationService{
 
     @Override
     @Transactional
-    public Application apply(ApplyResource applyResource) {
+    public Application apply(ApplicationId applicationId) {
 
-        validateApplication(applyResource);
+        validateApplication(applicationId);
 
-        ApplicationApplicantProfile profile = profileMapper.toApplicationApplicantProfile(profileFacade.getApplicantProfile(applyResource.getApplicantId()));
-
-        profile = saveProfile(profile);
-        saveJobExperience(profile.getJobExperienceInformations(), profile);
+        ApplicationApplicantProfile profile = cloneApplicantProfile(applicationId.getApplicantId());
         
-        Application application = applicationFactory.createApplication(applyResource.getApplicantId(), applyResource.getJobOfferId(), DEFAULT_STATUS, profile);
+        Application application = applicationFactory.createApplication(applicationId,DEFAULT_STATUS, profile);
 
         return applicationRepository.save(application);
 
     }
 
-    private void validateApplication(ApplyResource applyResource){
-        Set<ConstraintViolation<ApplyResource>> violations = validator.validate(applyResource);
+    private ApplicationApplicantProfile cloneApplicantProfile(Long applicantId){
+        ApplicationApplicantProfile profile = profileMapper.toApplicationApplicantProfile(profileFacade.getApplicantProfile(applicantId));
+
+        profile = saveProfile(profile);
+        saveJobExperience(profile.getJobExperienceInformations(), profile);
+
+        return profile;
+    }
+
+    private void validateApplication(ApplicationId applicationId){
+        Set<ConstraintViolation<ApplicationId>> violations = validator.validate(applicationId);
 
         if (!violations.isEmpty())
             throw new ResourceValidationException(APPLICATION, violations);
+
+        boolean exist = applicationRepository.existsById(applicationId);
+
+        if (exist)
+            throw new ResourceValidationException("You have already applied for this offer");
     }
 
     private ApplicationApplicantProfile saveProfile(ApplicationApplicantProfile profile){
