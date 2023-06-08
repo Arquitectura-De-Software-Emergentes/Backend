@@ -21,7 +21,7 @@ public class JobOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+
     @Embedded
     RecruiterId recruiterId;
     @NotNull
@@ -42,8 +42,8 @@ public class JobOffer {
     @ManyToOne
     @JoinColumn(
             name = "id_positions_profiles" ,
-            referencedColumnName = "id",
-             nullable = false)
+            referencedColumnName = "id"
+    )
     private PositionProfile positionProfile;
 
 }

@@ -17,6 +17,7 @@ public class CreateJobOfferResource {
     private Date endDate;
     private Money salary;
     private Long maxApplications;
+    private Long numberApplications;
     private Availability availability;
     private PositionProfile positionProfile;
 }

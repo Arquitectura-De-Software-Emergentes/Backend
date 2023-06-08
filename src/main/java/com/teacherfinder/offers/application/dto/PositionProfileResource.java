@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class PositionProfileResource {
     private Long id;
+    private String name;
     private Course course;
     private Modality experience;
     private Type type;

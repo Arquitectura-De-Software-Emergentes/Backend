@@ -31,7 +31,7 @@ public class PositionProfile {
     private Course course;
 
     @Enumerated(value = EnumType.STRING)
-    private Modality experience;
+    private Modality modality;
 
     @Enumerated(value = EnumType.STRING)
     private Type type;
