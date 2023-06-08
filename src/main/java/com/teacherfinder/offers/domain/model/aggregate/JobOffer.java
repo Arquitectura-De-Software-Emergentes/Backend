@@ -1,8 +1,8 @@
 package com.teacherfinder.offers.domain.model.aggregate;
 
 import com.teacherfinder.offers.domain.model.Enum.Availability;
+import com.teacherfinder.offers.domain.model.entity.PositionProfile;
 import com.teacherfinder.offers.domain.model.valueObjects.Money;
-import com.teacherfinder.offers.domain.model.valueObjects.RecruiterId;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,15 +21,21 @@ public class JobOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "Recruiter id is required")
+    private Long recruiterId;
 
-    @Embedded
-    RecruiterId recruiterId;
     @NotNull
     @NotBlank
     private String title;
+    @NotNull
+    @NotBlank
     private String description;
+
+
     private Date initialDate;
+
     private Date endDate;
+
     @Embedded
     private Money salary;
 

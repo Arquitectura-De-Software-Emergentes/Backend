@@ -1,6 +1,6 @@
 package com.teacherfinder.offers.application.mapper;
 
-import com.teacherfinder.offers.domain.model.aggregate.PositionProfile;
+import com.teacherfinder.offers.domain.model.entity.PositionProfile;
 import com.teacherfinder.offers.application.dto.CreatePositionProfileResource;
 import com.teacherfinder.offers.application.dto.PositionProfileResource;
 import com.teacherfinder.offers.application.dto.UpdatePositionProfileResource;

@@ -1,15 +1,21 @@
 package com.teacherfinder.offers.api.rest;
 
-import com.teacherfinder.offers.domain.model.services.JobOfferService;
+import com.teacherfinder.offers.domain.service.JobOfferService;
 import com.teacherfinder.offers.application.dto.CreateJobOfferResource;
-import com.teacherfinder.offers.application.dto.CreatePositionProfileResource;
 import com.teacherfinder.offers.application.dto.JobOfferResource;
-import com.teacherfinder.offers.application.dto.PositionProfileResource;
 import com.teacherfinder.offers.application.mapper.JobOfferMapper;
 import com.teacherfinder.offers.application.mapper.PositionProfileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(origins = "*", methods ={
+        RequestMethod.POST,
+        RequestMethod.GET,
+        RequestMethod.PUT,
+        RequestMethod.DELETE
+})
 @RestController
 @RequestMapping("/job-offers")
 public class JobOfferController {
@@ -25,20 +31,24 @@ public class JobOfferController {
 
 
     @PostMapping
-    public JobOfferResource createJobOffer(@RequestParam(name = "recruiterId") Long recruiterId,@RequestBody CreateJobOfferResource createJobOfferResource) {
-        return jobOfferMapper.toResource(jobOfferService.createJobOffer(recruiterId,jobOfferMapper.toModel(createJobOfferResource)));
+    public JobOfferResource createJobOffer(@RequestBody CreateJobOfferResource createJobOfferResource) {
+        return jobOfferMapper.toResource(jobOfferService.createJobOffer(jobOfferMapper.toModel(createJobOfferResource)));
     }
 
 
     @GetMapping("/{id}")
-    public JobOfferResource getJobOfferById(@PathVariable Long id) {
+    public JobOfferResource getJobOfferById(@PathVariable("id") Long id) {
         return jobOfferMapper.toResource(jobOfferService.getJobOfferById(id));
 
     }
 
-    @PostMapping("/position-profiles")
-    public PositionProfileResource createPositionProfile(@RequestBody CreatePositionProfileResource positionProfile) {
-        return positionProfileMapper.toResource(jobOfferService.createPositionProfile(positionProfileMapper.toModel(positionProfile)));
+    @GetMapping
+    public List<JobOfferResource> getAll(){
+        return jobOfferMapper.modelListtoResource(jobOfferService.getAllJobOffer());
+    }
 
+    @GetMapping("/recruiter/{recruiterId}")
+    public  List<JobOfferResource> getAllByRecruiterId(@PathVariable("recruiterId") Long recruiterId){
+        return  jobOfferMapper.modelListtoResource(jobOfferService.getAllJobOfferByRecruiterId(recruiterId));
     }
 }

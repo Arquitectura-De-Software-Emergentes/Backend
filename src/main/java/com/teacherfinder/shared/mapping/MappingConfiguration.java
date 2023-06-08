@@ -1,5 +1,6 @@
 package com.teacherfinder.shared.mapping;
 
+import com.teacherfinder.offers.application.mapper.JobOfferMapper;
 import com.teacherfinder.profile.application.mapper.ApplicantProfileMapper;
 import com.teacherfinder.profile.application.mapper.JobExperienceInformationMapper;
 
@@ -23,6 +24,10 @@ public class MappingConfiguration {
         return new ApplicantMapper();
     }
 
+    @Bean
+    public JobOfferMapper jobOfferMapper(){
+        return new JobOfferMapper();
+    }
     @Bean
     public ApplicantProfileMapper applicantProfileMapper(){
         return new ApplicantProfileMapper();

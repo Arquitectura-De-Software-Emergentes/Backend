@@ -1,6 +1,7 @@
-package com.teacherfinder.offers.domain.model.aggregate;
+package com.teacherfinder.offers.domain.model.entity;
 
 
+import com.teacherfinder.offers.domain.model.Enum.Experience;
 import com.teacherfinder.offers.domain.model.Enum.Modality;
 import com.teacherfinder.offers.domain.model.Enum.Type;
 import com.teacherfinder.offers.domain.model.valueObjects.Course;
@@ -23,8 +24,6 @@ public class PositionProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @NotBlank
     private String name;
 
     @Embedded
@@ -32,6 +31,9 @@ public class PositionProfile {
 
     @Enumerated(value = EnumType.STRING)
     private Modality modality;
+
+    @Enumerated(value= EnumType.STRING)
+    private Experience experience;
 
     @Enumerated(value = EnumType.STRING)
     private Type type;

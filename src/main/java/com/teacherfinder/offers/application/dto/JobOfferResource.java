@@ -1,9 +1,8 @@
 package com.teacherfinder.offers.application.dto;
 
 import com.teacherfinder.offers.domain.model.Enum.Availability;
-import com.teacherfinder.offers.domain.model.aggregate.PositionProfile;
+import com.teacherfinder.offers.domain.model.entity.PositionProfile;
 import com.teacherfinder.offers.domain.model.valueObjects.Money;
-import com.teacherfinder.offers.domain.model.valueObjects.RecruiterId;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +12,7 @@ import java.util.Date;
 @Setter
 public class JobOfferResource {
     private Long id;
-    private RecruiterId recruiterId;
+    private Long recruiterId;
     private String title;
     private String description;
     private Date initialDate;
