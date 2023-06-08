@@ -5,6 +5,7 @@ import com.teacherfinder.offers.domain.model.aggregate.PositionProfile;
 import com.teacherfinder.offers.domain.model.repository.JobOfferRepository;
 import com.teacherfinder.offers.domain.model.repository.PositionProfileRepository;
 import com.teacherfinder.offers.domain.model.services.JobOfferService;
+import com.teacherfinder.offers.domain.model.valueObjects.RecruiterId;
 import com.teacherfinder.shared.exception.ResourceNotFoundException;
 import com.teacherfinder.shared.exception.ResourceValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,14 @@ public class JobOfferServiceImpl implements JobOfferService {
         if (!violations.isEmpty()) {
             throw new ResourceValidationException(JOB_OFFER, violations);
         }
-        PositionProfile positionProfile = this.createOrRetrievePositionProfile(request.getPositionProfile());
-        return jobOfferRepository.save(request.withPositionProfile(positionProfile));
-    }
 
+        PositionProfile positionProfile = request.getPositionProfile() != null ? this.createOrRetrievePositionProfile(request.getPositionProfile()) : null;
+
+        JobOffer jobOffer = request.withPositionProfile(positionProfile)
+                .withRecruiterId(new RecruiterId(recruiterId));
+
+        return jobOfferRepository.save(jobOffer);
+    }
 
     @Override
     public JobOffer getJobOfferById(Long jobOfferId) {
@@ -46,18 +51,19 @@ public class JobOfferServiceImpl implements JobOfferService {
     @Override
     public PositionProfile createPositionProfile(PositionProfile request) {
         Set<ConstraintViolation<PositionProfile>> violations = validator.validate(request);
-        if (!violations.isEmpty())
-            throw new ResourceValidationException(JOB_OFFER, violations);
+        if (!violations.isEmpty()) {
+            return null;
+        }
         return this.positionProfileRepository.save(request);
     }
 
     @Override
     public PositionProfile createOrRetrievePositionProfile(PositionProfile request) {
        PositionProfile positionProfile = positionProfileRepository.findByName(request.getName());
-        if(positionProfile==null) {
-            this.createPositionProfile(request);
+        if( positionProfile == null) {
+          return this.createPositionProfile(request);
         }
-        return positionProfile;
+            return positionProfile;
     }
 
     @Override

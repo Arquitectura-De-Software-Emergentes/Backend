@@ -9,7 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreatePositionProfileResource {
+    private String name;
     private Course course;
-    private Modality experience;
+    private Modality modality;
     private Type type;
 }
