@@ -1,12 +1,12 @@
 package com.teacherfinder.offers.api.rest;
 
 import com.teacherfinder.offers.domain.model.services.JobOfferService;
-import com.teacherfinder.offers.dto.CreateJobOfferResource;
-import com.teacherfinder.offers.dto.CreatePositionProfileResource;
-import com.teacherfinder.offers.dto.JobOfferResource;
-import com.teacherfinder.offers.dto.PositionProfileResource;
-import com.teacherfinder.offers.mapper.JobOfferMapper;
-import com.teacherfinder.offers.mapper.PositionProfileMapper;
+import com.teacherfinder.offers.application.dto.CreateJobOfferResource;
+import com.teacherfinder.offers.application.dto.CreatePositionProfileResource;
+import com.teacherfinder.offers.application.dto.JobOfferResource;
+import com.teacherfinder.offers.application.dto.PositionProfileResource;
+import com.teacherfinder.offers.application.mapper.JobOfferMapper;
+import com.teacherfinder.offers.application.mapper.PositionProfileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

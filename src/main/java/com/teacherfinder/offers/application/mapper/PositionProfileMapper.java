@@ -1,9 +1,9 @@
-package com.teacherfinder.offers.mapper;
+package com.teacherfinder.offers.application.mapper;
 
 import com.teacherfinder.offers.domain.model.aggregate.PositionProfile;
-import com.teacherfinder.offers.dto.CreatePositionProfileResource;
-import com.teacherfinder.offers.dto.PositionProfileResource;
-import com.teacherfinder.offers.dto.UpdatePositionProfileResource;
+import com.teacherfinder.offers.application.dto.CreatePositionProfileResource;
+import com.teacherfinder.offers.application.dto.PositionProfileResource;
+import com.teacherfinder.offers.application.dto.UpdatePositionProfileResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.teacherfinder.offers.dto;
+package com.teacherfinder.offers.application.dto;
 
 import com.teacherfinder.offers.domain.model.Enum.Availability;
 import com.teacherfinder.offers.domain.model.aggregate.PositionProfile;

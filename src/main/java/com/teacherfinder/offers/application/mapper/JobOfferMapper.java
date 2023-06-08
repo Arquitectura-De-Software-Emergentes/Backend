@@ -1,9 +1,9 @@
-package com.teacherfinder.offers.mapper;
+package com.teacherfinder.offers.application.mapper;
 
+import com.teacherfinder.offers.application.dto.JobOfferResource;
 import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
-import com.teacherfinder.offers.dto.CreateJobOfferResource;
-import com.teacherfinder.offers.dto.JobOfferResource;
-import com.teacherfinder.offers.dto.UpdateJobOfferResource;
+import com.teacherfinder.offers.application.dto.CreateJobOfferResource;
+import com.teacherfinder.offers.application.dto.UpdateJobOfferResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
