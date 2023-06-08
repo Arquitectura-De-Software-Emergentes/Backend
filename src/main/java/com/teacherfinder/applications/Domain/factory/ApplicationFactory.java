@@ -9,9 +9,7 @@ import com.teacherfinder.applications.domain.model.valueObjects.ApplicationId;
 @Component
 public class ApplicationFactory {
     
-    public Application createApplication(Long applicantId, Long jobOfferId, String status, ApplicationApplicantProfile profile){
-
-        ApplicationId applicationId = new ApplicationId(applicantId, jobOfferId);
+    public Application createApplication(ApplicationId applicationId, String status, ApplicationApplicantProfile profile){
 
         return new Application(applicationId,status,profile);
     }
