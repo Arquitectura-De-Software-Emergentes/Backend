@@ -38,6 +38,10 @@ public class JobOfferController {
         return jobOfferMapper.toResource(jobOfferService.createJobOffer(jobOfferMapper.toModel(createJobOfferResource)));
     }
 
+    @PostMapping("{jobOfferId}/apply/{applicantId}")
+    public ResponseEntity<String> apply(@PathVariable("jobOfferId") Long jobOfferId, @PathVariable("applicantId") Long applicantId){
+        return jobOfferService.apply(jobOfferId, applicantId);
+    }
 
     @GetMapping("/{id}")
     public JobOfferResource getJobOfferById(@PathVariable("id") Long id) {

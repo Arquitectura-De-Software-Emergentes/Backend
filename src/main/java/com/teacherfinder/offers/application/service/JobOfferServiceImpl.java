@@ -1,5 +1,6 @@
 package com.teacherfinder.offers.application.service;
 
+import com.teacherfinder.applications.api.internal.ApplicationFacade;
 import com.teacherfinder.offers.domain.factory.PositionProfileFactory;
 import com.teacherfinder.offers.domain.model.Enum.Availability;
 import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
@@ -28,12 +29,16 @@ public class JobOfferServiceImpl implements JobOfferService {
     private final PositionProfileRepository positionProfileRepository;
     private final Validator validator ;
     private final PositionProfileFactory profileFactory;
+    private final ApplicationFacade applicationFacade;
 
-    public JobOfferServiceImpl(JobOfferRepository jobOfferRepository, PositionProfileRepository positionProfileRepository, Validator validator, PositionProfileFactory profileFactory) {
+    public JobOfferServiceImpl(JobOfferRepository jobOfferRepository,
+            PositionProfileRepository positionProfileRepository, Validator validator,
+            PositionProfileFactory profileFactory, ApplicationFacade applicationFacade) {
         this.jobOfferRepository = jobOfferRepository;
         this.positionProfileRepository = positionProfileRepository;
         this.validator = validator;
         this.profileFactory = profileFactory;
+        this.applicationFacade = applicationFacade;
     }
 
     @Transactional
@@ -101,6 +106,11 @@ public class JobOfferServiceImpl implements JobOfferService {
         ).orElseThrow(()-> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
 
         return new ResponseEntity<String>("The offer has been disabled",HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> apply(Long jobOfferId, Long applicantId) {
+        return applicationFacade.apply(jobOfferId, applicantId);
     }
 
 }
