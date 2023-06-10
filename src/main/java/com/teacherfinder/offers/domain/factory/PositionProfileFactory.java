@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PositionProfileFactory {
-    private static final String EMPTY_STRING = "";
+    private static final String EMPTY_STRING = "position profile";
     public PositionProfile createPositionProfile(){
         Course course = new Course(EMPTY_STRING);
         return new PositionProfile(null, EMPTY_STRING,course, Modality.ON_SITE, Experience.NONE,Type.FULL_TIME);
