@@ -23,11 +23,11 @@ import java.util.Set;
 
 @Service
 public class JobOfferServiceImpl implements JobOfferService {
-    private static final String JOB_OFFER  = "JobOffer";
+    private static final String JOB_OFFER = "JobOffer";
     private static final String POSITION_PROFILE = "PositionProfile";
     private final JobOfferRepository jobOfferRepository;
     private final PositionProfileRepository positionProfileRepository;
-    private final Validator validator ;
+    private final Validator validator;
     private final PositionProfileFactory profileFactory;
     private final ApplicationFacade applicationFacade;
 
@@ -73,17 +73,16 @@ public class JobOfferServiceImpl implements JobOfferService {
     @Override
     public PositionProfile updatePositionProfile(Long positionProfileId, PositionProfile request) {
         return positionProfileRepository.findById(positionProfileId).map(
-            profile->positionProfileRepository.save(profile
-                .withName(request.getName())
-                .withCourse(request.getCourse())
-                .withExperience(request.getExperience())
-                .withModality(request.getModality())
-                .withType(request.getType()))
-        ).orElseThrow(()-> new ResourceNotFoundException(POSITION_PROFILE, positionProfileId));
+                profile -> positionProfileRepository.save(profile
+                        .withName(request.getName())
+                        .withCourse(request.getCourse())
+                        .withExperience(request.getExperience())
+                        .withModality(request.getModality())
+                        .withType(request.getType())))
+                .orElseThrow(() -> new ResourceNotFoundException(POSITION_PROFILE, positionProfileId));
     }
 
-
-    private PositionProfile generateEmptyPositionProfile(){
+    private PositionProfile generateEmptyPositionProfile() {
         return positionProfileRepository.save(profileFactory.createPositionProfile());
     }
 
@@ -91,26 +90,56 @@ public class JobOfferServiceImpl implements JobOfferService {
     public ResponseEntity<String> enable(Long jobOfferId) {
 
         jobOfferRepository.findById(jobOfferId).map(
-            offer -> jobOfferRepository.save(offer
-            .withAvailability(Availability.AVAILABLE))
-        ).orElseThrow(()-> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
+                offer -> jobOfferRepository.save(offer
+                        .withAvailability(Availability.AVAILABLE)))
+                .orElseThrow(() -> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
 
-        return new ResponseEntity<String>("The offer has been enabled",HttpStatus.OK);
+        return new ResponseEntity<String>("The offer has been enabled", HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<String> disable(Long jobOfferId) {
         jobOfferRepository.findById(jobOfferId).map(
-            offer -> jobOfferRepository.save(offer
-            .withAvailability(Availability.UNAVAILABLE))
-        ).orElseThrow(()-> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
+                offer -> jobOfferRepository.save(offer
+                        .withAvailability(Availability.UNAVAILABLE)))
+                .orElseThrow(() -> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
 
-        return new ResponseEntity<String>("The offer has been disabled",HttpStatus.OK);
+        return new ResponseEntity<String>("The offer has been disabled", HttpStatus.OK);
     }
 
     @Override
+    @Transactional
     public ResponseEntity<String> apply(Long jobOfferId, Long applicantId) {
-        return applicationFacade.apply(jobOfferId, applicantId);
+
+        JobOffer currentJobOffer = jobOfferRepository.findById(jobOfferId)
+            .orElseThrow(()-> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
+
+        validateApplication(currentJobOffer);
+        ResponseEntity<String> response = applicationFacade.apply(jobOfferId, applicantId);
+        
+        currentJobOffer.setNumberApplications(currentJobOffer.getNumberApplications() + 1);
+        jobOfferRepository.save(currentJobOffer);
+
+        return response;
+    }
+
+    private void validateApplication(JobOffer currentJobOffer){
+
+        if(currentJobOffer.getAvailability() == Availability.UNAVAILABLE)
+            throw new ResourceValidationException("This job offer is not available");
+        
+        if(currentJobOffer.getNumberApplications()>= currentJobOffer.getMaxApplications()){
+            this.disable(currentJobOffer.getId());
+            throw new ResourceValidationException("this job offer don't have positions available to apply");
+        }
+        
+    }
+
+    private JobOffer updateJobOffer(Long jobOfferId, JobOffer request){
+        return jobOfferRepository.findById(jobOfferId).map(
+                offer -> jobOfferRepository.save(offer
+                        .withNumberApplications(request.getNumberApplications())))
+                .orElseThrow(() -> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
     }
 
 }
