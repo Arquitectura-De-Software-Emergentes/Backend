@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.teacherfinder.applications.application.dto.GetApplicationResource;
+import com.teacherfinder.applications.application.dto.ApplicationResource;
 import com.teacherfinder.applications.application.mapper.ApplicationMapper;
 import com.teacherfinder.applications.domain.service.ApplicationService;
 
@@ -30,7 +30,7 @@ public class ApplicationController {
     ApplicationMapper mapper;
 
     @GetMapping("job-offer/{jobOfferId}")
-    public List<GetApplicationResource> getApplicationsByOfferId(@PathVariable("jobOfferId") Long jobOfferId){
+    public List<ApplicationResource> getApplicationsByOfferId(@PathVariable("jobOfferId") Long jobOfferId){
         return mapper.modelListToResource(service.getApplicationsByOfferId(jobOfferId));
     }
 }
