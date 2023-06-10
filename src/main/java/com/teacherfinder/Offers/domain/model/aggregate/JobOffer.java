@@ -1,31 +1,41 @@
-package com.teacherfinder.Offers.domain.model.aggregate;
+package com.teacherfinder.offers.domain.model.aggregate;
 
-import com.teacherfinder.Offers.domain.model.Enum.Availability;
-import com.teacherfinder.Offers.domain.model.valueObject.Money;
-import com.teacherfinder.Offers.domain.model.valueObject.RecruiterId;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import com.teacherfinder.offers.domain.model.Enum.Availability;
+import com.teacherfinder.offers.domain.model.entity.PositionProfile;
+import com.teacherfinder.offers.domain.model.valueObjects.Money;
+import lombok.*;
 
-import javax.lang.model.util.AbstractAnnotationValueVisitor6;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
-
+@NoArgsConstructor
+@AllArgsConstructor
+@With
 @Getter
 @Setter
 @Entity
-@Table(name = "job_offer")
+@Table(name = "job_offers")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class JobOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Embedded
-    RecruiterId recruiterId;
+    @NotNull(message = "Recruiter id is required")
+    private Long recruiterId;
+
+    @NotNull
+    @NotBlank
     private String title;
+    @NotNull
+    @NotBlank
     private String description;
+
+
     private Date initialDate;
+
     private Date endDate;
+
     @Embedded
     private Money salary;
 
@@ -38,8 +48,8 @@ public class JobOffer {
     @ManyToOne
     @JoinColumn(
             name = "id_positions_profiles" ,
-            referencedColumnName = "id",
-             nullable = false)
+            referencedColumnName = "id"
+    )
     private PositionProfile positionProfile;
 
 }

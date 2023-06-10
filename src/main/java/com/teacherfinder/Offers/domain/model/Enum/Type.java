@@ -1,6 +1,6 @@
-package com.teacherfinder.Offers.domain.model.Enum;
+package com.teacherfinder.offers.domain.model.Enum;
 
 public enum Type {
-    PartTime,
-    Fulltime
+    PART_TIME,
+    FULL_TIME
 }
