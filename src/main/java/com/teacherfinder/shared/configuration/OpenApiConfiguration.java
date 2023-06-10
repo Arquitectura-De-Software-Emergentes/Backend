@@ -16,7 +16,7 @@ public class OpenApiConfiguration {
             @Value("${documentation.application.version}") String applicationVersion) {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Budget API")
+                        .title("Teacher Finder API")
                         .version(applicationVersion)
                         .description(applicationDescription)
                         .termsOfService("https://acme-budget.com/terms")
