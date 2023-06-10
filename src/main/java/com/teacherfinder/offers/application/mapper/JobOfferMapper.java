@@ -5,9 +5,7 @@ import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
 import com.teacherfinder.offers.application.dto.CreateJobOfferResource;
 import com.teacherfinder.offers.application.dto.UpdateJobOfferResource;
 import com.teacherfinder.shared.mapping.EnhancedModelMapper;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

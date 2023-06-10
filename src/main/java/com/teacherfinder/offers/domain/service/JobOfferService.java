@@ -5,11 +5,14 @@ import com.teacherfinder.offers.domain.model.entity.PositionProfile;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 public interface JobOfferService {
     JobOffer createJobOffer(JobOffer request);
-    JobOffer getJobOfferById(Long id);
+    JobOffer getJobOfferById(Long jobOfferId);
     List<JobOffer> getAllJobOffer();
     List<JobOffer> getAllJobOfferByRecruiterId(Long recruiterId);
-
     PositionProfile updatePositionProfile(Long positionProfileId, PositionProfile request);
+    ResponseEntity<String> enable(Long jobOfferId);
+    ResponseEntity<String> disable(Long jobOfferId);
 }

@@ -8,6 +8,7 @@ import com.teacherfinder.offers.application.dto.UpdatePositionProfileResource;
 import com.teacherfinder.offers.application.mapper.JobOfferMapper;
 import com.teacherfinder.offers.application.mapper.PositionProfileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,5 +58,15 @@ public class JobOfferController {
     @PutMapping("/position-profiles/{positionProfileId}")
     public PositionProfileResource updatePostionProifile(@PathVariable("positionProfileId") Long positionProfileId, @RequestBody UpdatePositionProfileResource resource){
         return positionProfileMapper.toResource(jobOfferService.updatePositionProfile(positionProfileId, positionProfileMapper.toModel(resource)));
+    }
+
+    @PutMapping("/{jobOfferId}/enable")
+    public ResponseEntity<String> enablePostionProifile(@PathVariable("jobOfferId") Long jobOfferId){
+        return jobOfferService.enable(jobOfferId);
+    }
+
+    @PutMapping("/{jobOfferId}/disable")
+    public ResponseEntity<String> disablePostionProifile(@PathVariable("jobOfferId") Long jobOfferId){
+        return jobOfferService.disable(jobOfferId);
     }
 }

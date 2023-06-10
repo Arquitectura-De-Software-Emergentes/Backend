@@ -1,6 +1,7 @@
 package com.teacherfinder.offers.application.service;
 
 import com.teacherfinder.offers.domain.factory.PositionProfileFactory;
+import com.teacherfinder.offers.domain.model.Enum.Availability;
 import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
 import com.teacherfinder.offers.domain.model.entity.PositionProfile;
 import com.teacherfinder.offers.domain.repository.JobOfferRepository;
@@ -8,6 +9,9 @@ import com.teacherfinder.offers.domain.repository.PositionProfileRepository;
 import com.teacherfinder.offers.domain.service.JobOfferService;
 import com.teacherfinder.shared.exception.ResourceNotFoundException;
 import com.teacherfinder.shared.exception.ResourceValidationException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -76,6 +80,27 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     private PositionProfile generateEmptyPositionProfile(){
         return positionProfileRepository.save(profileFactory.createPositionProfile());
+    }
+
+    @Override
+    public ResponseEntity<String> enable(Long jobOfferId) {
+
+        jobOfferRepository.findById(jobOfferId).map(
+            offer -> jobOfferRepository.save(offer
+            .withAvailability(Availability.AVAILABLE))
+        ).orElseThrow(()-> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
+
+        return new ResponseEntity<String>("The offer has been enabled",HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> disable(Long jobOfferId) {
+        jobOfferRepository.findById(jobOfferId).map(
+            offer -> jobOfferRepository.save(offer
+            .withAvailability(Availability.UNAVAILABLE))
+        ).orElseThrow(()-> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
+
+        return new ResponseEntity<String>("The offer has been disabled",HttpStatus.OK);
     }
 
 }
