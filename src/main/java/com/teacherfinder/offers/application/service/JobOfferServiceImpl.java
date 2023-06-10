@@ -63,7 +63,14 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     @Override
     public PositionProfile updatePositionProfile(Long positionProfileId, PositionProfile request) {
-        return null;
+        return positionProfileRepository.findById(positionProfileId).map(
+            profile->positionProfileRepository.save(profile
+                .withName(request.getName())
+                .withCourse(request.getCourse())
+                .withExperience(request.getExperience())
+                .withModality(request.getModality())
+                .withType(request.getType()))
+        ).orElseThrow(()-> new ResourceNotFoundException(POSITION_PROFILE, positionProfileId));
     }
 
 
