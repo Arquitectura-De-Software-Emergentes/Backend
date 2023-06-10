@@ -66,6 +66,11 @@ public class ApplicationServiceImpl implements ApplicationService{
 
     }
 
+    @Override
+    public List<Application> getApplicationsByOfferId(Long offerId) {
+        return applicationRepository.findByApplicationIdJobOfferId(offerId);
+    }
+
     private ApplicationApplicantProfile cloneApplicantProfile(Long applicantId){
         ApplicationApplicantProfile profile = profileMapper.toApplicationApplicantProfile(profileFacade.getApplicantProfile(applicantId));
 
