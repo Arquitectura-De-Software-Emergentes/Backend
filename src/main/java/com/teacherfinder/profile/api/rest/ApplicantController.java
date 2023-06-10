@@ -33,7 +33,7 @@ import com.teacherfinder.profile.domain.service.ApplicantService;
 })
 
 @RestController
-@RequestMapping("api/v1/applicant")
+@RequestMapping("api/v1/applicants")
 public class ApplicantController {
     
     @Autowired
