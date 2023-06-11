@@ -10,4 +10,5 @@ import lombok.Setter;
 public class ApplicationResource {
     ApplicationId applicationId;
     private String status;
+    private ApplicationApplicantProfileResource applicantProfile;
 }

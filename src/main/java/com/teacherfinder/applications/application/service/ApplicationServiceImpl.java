@@ -11,6 +11,8 @@ import com.teacherfinder.applications.domain.model.entity.ApplicationJobExperien
 import com.teacherfinder.applications.domain.model.valueObjects.ApplicationId;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.teacherfinder.applications.application.mapper.ApplicationApplicantProfileMapper;
@@ -54,7 +56,7 @@ public class ApplicationServiceImpl implements ApplicationService{
 
     @Override
     @Transactional
-    public Application apply(ApplicationId applicationId) {
+    public ResponseEntity<String> apply(ApplicationId applicationId) {
 
         validateApplication(applicationId);
 
@@ -62,8 +64,9 @@ public class ApplicationServiceImpl implements ApplicationService{
         
         Application application = applicationFactory.createApplication(applicationId,DEFAULT_STATUS, profile);
 
-        return applicationRepository.save(application);
+        applicationRepository.save(application);
 
+        return new ResponseEntity<String>("successful application",HttpStatus.CREATED);
     }
 
     @Override
