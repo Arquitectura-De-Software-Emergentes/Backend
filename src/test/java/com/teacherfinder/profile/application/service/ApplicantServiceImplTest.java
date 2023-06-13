@@ -147,7 +147,7 @@ class ApplicantServiceImplTest {
         ApplicantProfile expectedProfile = new ApplicantProfile();
         expectedProfile.setApplicantProfileId(applicantId);
         expectedProfile.setAcademicInformation(new AcademicInformation("math","idk","jorge"));
-        expectedProfile.setContactInformation( new ContactInformation("021831","bezos@gmail.com","99823712");
+        expectedProfile.setContactInformation( new ContactInformation("021831","bezos@gmail.com","99823712"));
         expectedProfile.setPersonalInformation(new PersonalInformation());
 
         when(profileRepository.findById(applicantId)).thenReturn(Optional.of(expectedProfile));

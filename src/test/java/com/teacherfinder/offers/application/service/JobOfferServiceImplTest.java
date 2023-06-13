@@ -1,7 +1,6 @@
 package com.teacherfinder.offers.application.service;
 
 import com.teacherfinder.applications.api.internal.ApplicationFacade;
-import com.teacherfinder.offers.domain.factory.PositionProfileFactory;
 import com.teacherfinder.offers.domain.model.Enum.*;
 import com.teacherfinder.offers.domain.model.Enum.Currency;
 import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
@@ -10,26 +9,20 @@ import com.teacherfinder.offers.domain.model.valueObjects.Course;
 import com.teacherfinder.offers.domain.model.valueObjects.Money;
 import com.teacherfinder.offers.domain.repository.JobOfferRepository;
 import com.teacherfinder.offers.domain.repository.PositionProfileRepository;
-import com.teacherfinder.offers.domain.service.JobOfferService;
-import com.teacherfinder.shared.exception.ResourceNotFoundException;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.validation.Validator;
-import javax.xml.transform.Source;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class JobOfferServiceImplTest {
