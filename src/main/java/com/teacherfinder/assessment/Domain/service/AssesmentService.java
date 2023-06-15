@@ -1,0 +1,13 @@
+package com.teacherfinder.assessment.domain.service;
+
+import org.springframework.http.ResponseEntity;
+
+import com.teacherfinder.assessment.domain.model.entity.Question;
+import com.teacherfinder.assessment.domain.model.entity.QuestionOption;
+import com.teacherfinder.assessment.domain.model.entity.TestActivity;
+
+public interface AssesmentService {
+    ResponseEntity<String> createTest(TestActivity test);
+    ResponseEntity<String> addQuestion(Question question, Long testId);
+    ResponseEntity<String> addOption(QuestionOption option, Long questionId);
+}
