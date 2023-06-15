@@ -1,13 +1,18 @@
 package com.teacherfinder.assessment.domain.model.entity;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,17 +26,18 @@ import lombok.With;
 @NoArgsConstructor
 @With
 @Entity
-@Table(name = "options")
-public class QuestionOption {
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "answer is required")
-    private String answer;
+    @NotBlank(message = "title must not be empty")
+    private String title;
 
-    private Boolean isCorrect;
+    private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Question question;
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<TestActivity> tests = new LinkedHashSet<>();
 }

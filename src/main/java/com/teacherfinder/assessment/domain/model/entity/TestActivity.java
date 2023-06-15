@@ -1,34 +1,53 @@
 package com.teacherfinder.assessment.domain.model.entity;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.With;
 
 @Getter
 @Setter
-public class TestActivity implements Activity{
+@AllArgsConstructor
+@NoArgsConstructor
+@With
+@Entity
+@Table(name = "tests")
+public class TestActivity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull(message = "The minmun score is required")
     private Long minimunScore;
+
     private Date initialAvailableDate;
     private Date endAvailableDate;
-    private List<Question> questions;
-    private Long score;
 
-    @Override
-    public void execute() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'execute'");
-    }
-    @Override
-    public Boolean hasPassed() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasPassed'");
-    }
-    @Override
-    public Long getScore() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getScore'");
-    }
+    private Boolean enable = false;
+
+    private Long numQuestions;
+
+    @OneToMany(mappedBy = "test", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Question> questions;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
 }
