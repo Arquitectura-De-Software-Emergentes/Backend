@@ -9,4 +9,9 @@ public class MappingConfiguration {
     public TestActivityMapper testActivityMapper(){
         return new TestActivityMapper();
     }
+
+    @Bean
+    public QuestionMapper questionMapper(){
+        return new QuestionMapper();
+    }
 }
