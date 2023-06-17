@@ -1,15 +1,11 @@
 package com.teacherfinder.assessment.domain.model.entity;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -34,9 +30,16 @@ public class Question {
     @NotBlank(message = "The statement is required")
     private String statement;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<QuestionOption> options;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private TestActivity test;
+
+    private String option1;
+
+    private String option2;
+
+    private String option3;
+
+    private String option4;
+
+    private String reponse;
 }
