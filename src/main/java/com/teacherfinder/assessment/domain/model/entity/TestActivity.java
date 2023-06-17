@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -42,12 +41,10 @@ public class TestActivity{
 
     private Boolean enable = false;
 
-    private Long numQuestions;
+    private Long numQuestions = 0L;
 
     @OneToMany(mappedBy = "test", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Question> questions;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Category category;
 }
