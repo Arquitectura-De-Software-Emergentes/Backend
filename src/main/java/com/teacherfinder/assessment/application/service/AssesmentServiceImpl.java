@@ -14,6 +14,7 @@ import com.teacherfinder.assessment.domain.model.entity.TestActivity;
 import com.teacherfinder.assessment.domain.repository.QuestionRepository;
 import com.teacherfinder.assessment.domain.repository.TestActivityRepository;
 import com.teacherfinder.assessment.domain.service.AssesmentService;
+import com.teacherfinder.shared.exception.ResourceNotFoundException;
 import com.teacherfinder.shared.exception.ResourceValidationException;
 
 @Service
@@ -44,13 +45,16 @@ public class AssesmentServiceImpl implements AssesmentService{
     }
 
     @Override
-    public ResponseEntity<String> addQuestion(Question question) {
+    public ResponseEntity<String> addQuestion(Long testId,Question question) {
         Set<ConstraintViolation<Question>> violations = validator.validate(question);
 
         if(!violations.isEmpty())
             throw new ResourceValidationException(QUESTION, violations);
 
-        questionRepository.save(question);
+        TestActivity test = testRepository.findById(testId)
+            .orElseThrow(()-> new ResourceNotFoundException(QUESTION, testId));
+
+        questionRepository.save(question.withTest(test));
 
         return new ResponseEntity<String>("Question was successfully saved", HttpStatus.OK);
     }
