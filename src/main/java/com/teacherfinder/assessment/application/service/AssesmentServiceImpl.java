@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.teacherfinder.assessment.domain.model.entity.Question;
 import com.teacherfinder.assessment.domain.model.entity.TestActivity;
-import com.teacherfinder.assessment.domain.repository.QuestionOptionRepository;
 import com.teacherfinder.assessment.domain.repository.QuestionRepository;
 import com.teacherfinder.assessment.domain.repository.TestActivityRepository;
 import com.teacherfinder.assessment.domain.service.AssesmentService;
@@ -22,17 +21,14 @@ public class AssesmentServiceImpl implements AssesmentService{
 
     private static final String TEST = "test";
     private static final String QUESTION = "question";
-    private static final String OPTION = "option";
     private final TestActivityRepository testRepository;
     private final QuestionRepository questionRepository;
-    private final QuestionOptionRepository questionOptionRepository;
     private final Validator validator;
 
     public AssesmentServiceImpl(TestActivityRepository testRepository, QuestionRepository questionRepository,
-            QuestionOptionRepository questionOptionRepository, Validator validator) {
+            Validator validator) {
         this.testRepository = testRepository;
         this.questionRepository = questionRepository;
-        this.questionOptionRepository = questionOptionRepository;
         this.validator = validator;
     }
 
@@ -48,9 +44,15 @@ public class AssesmentServiceImpl implements AssesmentService{
     }
 
     @Override
-    public ResponseEntity<String> addQuestion(Question question, Long testId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addQuestion'");
+    public ResponseEntity<String> addQuestion(Question question) {
+        Set<ConstraintViolation<Question>> violations = validator.validate(question);
+
+        if(!violations.isEmpty())
+            throw new ResourceValidationException(QUESTION, violations);
+
+        questionRepository.save(question);
+
+        return new ResponseEntity<String>("Question was successfully saved", HttpStatus.OK);
     }
     
 }
