@@ -45,4 +45,9 @@ public class TestActivity{
     @JsonIgnore
     private Set<Question> questions;
 
+    public void addQuestion(Question question) {
+        questions.add(question);
+        numQuestions += 1;
+    }
+
 }

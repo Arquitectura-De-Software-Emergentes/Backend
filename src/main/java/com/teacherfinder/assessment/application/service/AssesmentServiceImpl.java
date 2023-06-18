@@ -43,7 +43,7 @@ public class AssesmentServiceImpl implements AssesmentService {
     @Override
     public TestActivity GetTestById(Long testId) {
         return testRepository.findById(testId)
-            .orElseThrow(()-> new ResourceNotFoundException(TEST, testId));
+                .orElseThrow(() -> new ResourceNotFoundException(TEST, testId));
     }
 
     @Override
@@ -60,6 +60,10 @@ public class AssesmentServiceImpl implements AssesmentService {
     @Override
     @Transactional
     public ResponseEntity<String> addQuestion(Long testId, Question question) {
+
+        TestActivity currentTest = testRepository.findById(testId)
+                .orElseThrow(() -> new ResourceNotFoundException(TEST, testId));
+
         Set<ConstraintViolation<Question>> violations = validator.validate(question);
 
         if (!violations.isEmpty())
@@ -72,11 +76,15 @@ public class AssesmentServiceImpl implements AssesmentService {
 
         addOptions(question.getOptions(), result);
 
+        currentTest.addQuestion(question);
+
+        testRepository.save(currentTest);
+
         return new ResponseEntity<String>("Question was successfully saved", HttpStatus.OK);
     }
 
     private void addOptions(List<QuestionOption> options, Question question) {
-        
+
         for (QuestionOption option : options) {
             Set<ConstraintViolation<QuestionOption>> violations = validator.validate(option);
 
