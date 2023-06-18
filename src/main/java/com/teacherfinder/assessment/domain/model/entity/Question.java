@@ -41,5 +41,5 @@ public class Question {
     @OneToMany(mappedBy = "question")
     private List<QuestionOption> options;
 
-    private String reponse;
+    private Long reponseId = 0L;
 }
