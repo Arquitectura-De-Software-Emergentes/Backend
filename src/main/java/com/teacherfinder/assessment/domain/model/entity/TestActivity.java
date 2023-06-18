@@ -3,9 +3,7 @@ package com.teacherfinder.assessment.domain.model.entity;
 import java.util.Date;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +41,7 @@ public class TestActivity{
 
     private Long numQuestions = 0L;
 
-    @OneToMany(mappedBy = "test", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "test")
     @JsonIgnore
     private Set<Question> questions;
 
