@@ -1,5 +1,7 @@
 package com.teacherfinder.assessment.application.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 import lombok.Getter;
@@ -12,13 +14,7 @@ public class CreateQuestionResource {
     @NotBlank(message = "The statement is required")
     private String statement;
 
-    private String option1;
-
-    private String option2;
-
-    private String option3;
-
-    private String option4;
+    List<CreateQuestionOptionResource> options;
 
     private String reponse;
 }
