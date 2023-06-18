@@ -3,6 +3,7 @@ package com.teacherfinder.assessment.application.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.teacherfinder.assessment.application.dto.CreateTestResource;
+import com.teacherfinder.assessment.application.dto.TestResource;
 import com.teacherfinder.assessment.domain.model.entity.TestActivity;
 import com.teacherfinder.shared.mapping.EnhancedModelMapper;
 
@@ -13,5 +14,9 @@ public class TestActivityMapper {
 
     public TestActivity toModel(CreateTestResource resource){
         return mapper.map(resource, TestActivity.class);
+    }
+
+    public TestResource toResource(TestActivity model){
+        return mapper.map(model, TestResource.class);
     }
 }
