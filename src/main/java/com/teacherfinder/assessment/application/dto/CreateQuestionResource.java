@@ -16,5 +16,4 @@ public class CreateQuestionResource {
 
     List<CreateQuestionOptionResource> options;
 
-    private String reponse;
 }
