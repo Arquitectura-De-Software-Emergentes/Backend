@@ -23,7 +23,7 @@ import com.teacherfinder.assessment.domain.service.AssesmentService;
     RequestMethod.GET
 })
 @RestController
-@RequestMapping("/assessment")
+@RequestMapping("/assessments")
 public class AssesmentController {
 
     @Autowired
@@ -35,12 +35,12 @@ public class AssesmentController {
     @Autowired
     QuestionMapper questionMapper;
 
-    @PostMapping("/test")
+    @PostMapping("/tests")
     public ResponseEntity<String> createTest(@RequestBody CreateTestResource resource){
         return service.createTest(testMapper.toModel(resource));
     }
 
-    @PostMapping("/test/{testId}")
+    @PostMapping("/tests/{testId}/questions")
     public ResponseEntity<String> AddQuestion(@RequestParam("testId") Long testId, @RequestBody CreateQuestionResource resource){
         return service.addQuestion(testId, questionMapper.toModel(resource));
     }

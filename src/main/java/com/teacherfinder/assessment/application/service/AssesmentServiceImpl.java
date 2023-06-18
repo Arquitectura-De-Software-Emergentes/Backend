@@ -41,6 +41,12 @@ public class AssesmentServiceImpl implements AssesmentService {
     }
 
     @Override
+    public TestActivity GetTestById(Long testId) {
+        return testRepository.findById(testId)
+            .orElseThrow(()-> new ResourceNotFoundException(TEST, testId));
+    }
+
+    @Override
     public ResponseEntity<String> createTest(TestActivity test) {
         Set<ConstraintViolation<TestActivity>> violations = validator.validate(test);
         if (!violations.isEmpty())
