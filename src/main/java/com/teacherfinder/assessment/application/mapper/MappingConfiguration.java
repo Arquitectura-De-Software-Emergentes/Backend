@@ -14,4 +14,9 @@ public class MappingConfiguration {
     public QuestionMapper questionMapper(){
         return new QuestionMapper();
     }
+
+    @Bean
+    public QuestionOptionMapper questionOptionMapper(){
+        return new QuestionOptionMapper();
+    }
 }
