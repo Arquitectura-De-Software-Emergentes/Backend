@@ -38,8 +38,8 @@ public class AssesmentController {
     QuestionMapper questionMapper;
 
     @PostMapping("/tests")
-    public ResponseEntity<String> createTest(@RequestBody CreateTestResource resource){
-        return service.createTest(testMapper.toModel(resource));
+    public TestResource createTest(@RequestBody CreateTestResource resource){
+        return testMapper.toResource(service.createTest(testMapper.toModel(resource)));
     }
 
     @PostMapping("/tests/{testId}/questions")

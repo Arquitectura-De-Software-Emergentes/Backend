@@ -47,14 +47,13 @@ public class AssesmentServiceImpl implements AssesmentService {
     }
 
     @Override
-    public ResponseEntity<String> createTest(TestActivity test) {
+    public TestActivity createTest(TestActivity test) {
         Set<ConstraintViolation<TestActivity>> violations = validator.validate(test);
         if (!violations.isEmpty())
             throw new ResourceValidationException(TEST, violations);
 
-        testRepository.save(test);
+        return testRepository.save(test);
 
-        return new ResponseEntity<String>("Test was successfully saved", HttpStatus.OK);
     }
 
     @Override
