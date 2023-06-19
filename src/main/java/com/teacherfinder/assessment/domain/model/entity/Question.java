@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +41,9 @@ public class Question {
 
     @OneToMany(mappedBy = "question")
     private List<QuestionOption> options;
+
+    @NotNull(message = "points is required")
+    private Long points;
 
     private Long reponseId = 0L;
 }

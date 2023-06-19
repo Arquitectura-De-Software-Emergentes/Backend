@@ -61,18 +61,9 @@ public class AssesmentServiceImpl implements AssesmentService {
     @Transactional
     public ResponseEntity<String> addQuestion(Long testId, Question question) {
 
-        TestActivity currentTest = testRepository.findById(testId)
-                .orElseThrow(() -> new ResourceNotFoundException(TEST, testId));
+        TestActivity currentTest = validateQuestion(testId, question);
 
-        Set<ConstraintViolation<Question>> violations = validator.validate(question);
-
-        if (!violations.isEmpty())
-            throw new ResourceValidationException(QUESTION, violations);
-
-        TestActivity test = testRepository.findById(testId)
-                .orElseThrow(() -> new ResourceNotFoundException(QUESTION, testId));
-
-        Question result = questionRepository.save(question.withTest(test));
+        Question result = questionRepository.save(question.withTest(currentTest));
 
         addOptions(question.getOptions(), result);
 
@@ -81,6 +72,18 @@ public class AssesmentServiceImpl implements AssesmentService {
         testRepository.save(currentTest);
 
         return new ResponseEntity<String>("Question was successfully saved", HttpStatus.OK);
+    }
+
+    private TestActivity validateQuestion(Long testId, Question question){
+        TestActivity currentTest = testRepository.findById(testId)
+                .orElseThrow(() -> new ResourceNotFoundException(TEST, testId));
+
+        Set<ConstraintViolation<Question>> violations = validator.validate(question);
+
+        if (!violations.isEmpty())
+            throw new ResourceValidationException(QUESTION, violations);
+        
+        return currentTest;
     }
 
     private void addOptions(List<QuestionOption> options, Question question) {

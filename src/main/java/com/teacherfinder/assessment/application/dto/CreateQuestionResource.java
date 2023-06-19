@@ -16,4 +16,6 @@ public class CreateQuestionResource {
 
     List<CreateQuestionOptionResource> options;
 
+    private Long points;
+
 }
