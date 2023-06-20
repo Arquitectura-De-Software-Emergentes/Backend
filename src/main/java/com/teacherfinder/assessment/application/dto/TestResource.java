@@ -1,8 +1,6 @@
 package com.teacherfinder.assessment.application.dto;
 
-import java.util.Date;
-import java.util.Set;
-
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,10 +8,8 @@ import lombok.Setter;
 @Setter
 public class TestResource {
     private Long id;
-    private Date initialAvailableDate;
-    private Date endAvailableDate;
-    private Boolean enable;
     private Long numQuestions;
-    private Set<QuestionResource> questions;
+    private Long minimunScore;
+    private List<QuestionResource> questions;
 
 }
