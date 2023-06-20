@@ -19,4 +19,14 @@ public class MappingConfiguration {
     public QuestionOptionMapper questionOptionMapper(){
         return new QuestionOptionMapper();
     }
+
+    @Bean
+    public AssessmentMapper assessmentMapper(){
+        return new AssessmentMapper();
+    }
+
+    @Bean
+    public TestResultMapper testResultMapper(){
+        return new TestResultMapper();
+    }
 }
