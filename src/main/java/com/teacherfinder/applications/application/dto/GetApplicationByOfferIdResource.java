@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ApplicationResource {
+public class GetApplicationByOfferIdResource {
     ApplicationId applicationId;
     private String status;
     private ApplicationApplicantProfileResource applicantProfile;

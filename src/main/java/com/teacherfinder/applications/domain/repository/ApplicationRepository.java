@@ -8,4 +8,5 @@ import com.teacherfinder.applications.domain.model.valueObjects.ApplicationId;
 
 public interface ApplicationRepository extends JpaRepository<Application, ApplicationId>{
     List<Application> findByApplicationIdJobOfferId(long offerId);
+    List<Application> findByApplicationIdApplicantId(long applicantId);
 }
