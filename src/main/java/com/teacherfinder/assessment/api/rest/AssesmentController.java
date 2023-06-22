@@ -1,6 +1,9 @@
 package com.teacherfinder.assessment.api.rest;
 
 import java.util.List;
+
+import com.teacherfinder.assessment.application.dto.*;
+import com.teacherfinder.assessment.application.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,17 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.teacherfinder.assessment.application.dto.AssessmentResource;
-import com.teacherfinder.assessment.application.dto.CreateAssessmentResource;
-import com.teacherfinder.assessment.application.dto.CreateQuestionResource;
-import com.teacherfinder.assessment.application.dto.CreateTestResource;
-import com.teacherfinder.assessment.application.dto.QuestionResource;
-import com.teacherfinder.assessment.application.dto.TestResource;
-import com.teacherfinder.assessment.application.dto.TestResultResource;
-import com.teacherfinder.assessment.application.mapper.AssessmentMapper;
-import com.teacherfinder.assessment.application.mapper.QuestionMapper;
-import com.teacherfinder.assessment.application.mapper.TestActivityMapper;
-import com.teacherfinder.assessment.application.mapper.TestResultMapper;
 import com.teacherfinder.assessment.domain.service.AssesmentService;
 
 @CrossOrigin(origins = "*", methods = {
@@ -49,6 +41,9 @@ public class AssesmentController {
 
     @Autowired
     TestResultMapper testResultMapper;
+
+    @Autowired
+    VideoPresentationMapper videoPresentationMapper;
 
     @PostMapping
     public AssessmentResource createAssessment(@RequestBody CreateAssessmentResource resource){
@@ -84,4 +79,16 @@ public class AssesmentController {
     public TestResultResource GetResult(@RequestParam("assessmentId") Long assessmentId,@RequestParam("applicantId") Long applicantId){
         return testResultMapper.toResource(service.getResultByTestResultId(assessmentId, applicantId));
     }
+
+    @PostMapping("/{assessmentId}/video-presentations")
+    public VideoPresentationResource addVideoPresentation(@RequestParam("assessmentId") Long assessmentId ,@RequestBody CreateVideoPresentationResource resource){
+        return videoPresentationMapper.toResource(service.createVideoPresentation(assessmentId , videoPresentationMapper.toModel(resource)));
+
+    }
+
+    @GetMapping("{assessmentId}/video-presentations{videoId}")
+    public VideoPresentationResource GetVideoPresentationtById(@RequestParam("assessmentId") Long assessmentId,@RequestParam("videoId") Long videoId ){
+        return videoPresentationMapper.toResource(service.getVideoPresentationById(assessmentId,videoId));
+    }
+
 }

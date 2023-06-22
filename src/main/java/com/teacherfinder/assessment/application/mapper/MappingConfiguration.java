@@ -29,4 +29,6 @@ public class MappingConfiguration {
     public TestResultMapper testResultMapper(){
         return new TestResultMapper();
     }
+
+    @Bean  VideoPresentationMapper videoPresentationMapper() { return new VideoPresentationMapper();}
 }

@@ -2,6 +2,7 @@ package com.teacherfinder.assessment.domain.service;
 
 import java.util.List;
 
+import com.teacherfinder.assessment.domain.model.entity.VideoPresentation;
 import org.springframework.http.ResponseEntity;
 
 import com.teacherfinder.assessment.domain.model.aggregate.Assessment;
@@ -17,4 +18,10 @@ public interface AssesmentService {
     TestActivity GetTestByAssessmentId(Long assessmentId);
     TestResult calculateScore(Long assessmentId, Long applicantId,List<Question> questions);
     TestResult getResultByTestResultId(Long assessmentId, Long applicant);
+    VideoPresentation createVideoPresentation (Long assessmentId ,VideoPresentation  videoPresentation);
+    List<VideoPresentation> getAllVideoPresentationsByApplicantId();
+
+    VideoPresentation getVideoPresentationById(Long assessmentId, Long Id);
+
+
 }

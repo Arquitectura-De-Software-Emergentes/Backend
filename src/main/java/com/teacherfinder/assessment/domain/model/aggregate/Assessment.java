@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import com.teacherfinder.assessment.domain.model.entity.TestActivity;
 
+import com.teacherfinder.assessment.domain.model.entity.VideoPresentation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,4 +35,6 @@ public class Assessment {
     private Boolean enable = false;
     @OneToOne(mappedBy = "assessment")
     private TestActivity test;
+    @OneToOne(mappedBy = "assessment")
+    private VideoPresentation videoPresentation;
 }
