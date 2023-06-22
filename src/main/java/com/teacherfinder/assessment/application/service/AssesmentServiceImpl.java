@@ -7,22 +7,20 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import com.teacherfinder.assessment.domain.model.entity.*;
+import com.teacherfinder.assessment.domain.model.entity.QuestionOption;
+import com.teacherfinder.assessment.domain.repository.*;
+import com.teacherfinder.assessment.domain.repository.QuestionOptionRepository;
+import com.teacherfinder.assessment.domain.repository.QuestionRepository;
+import com.teacherfinder.assessment.domain.repository.TestActivityRepository;
+import com.teacherfinder.profile.domain.repository.ApplicantRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.teacherfinder.assessment.domain.factory.TestResultFactory;
 import com.teacherfinder.assessment.domain.model.aggregate.Assessment;
-import com.teacherfinder.assessment.domain.model.entity.Question;
-import com.teacherfinder.assessment.domain.model.entity.QuestionOption;
-import com.teacherfinder.assessment.domain.model.entity.TestActivity;
-import com.teacherfinder.assessment.domain.model.entity.TestResult;
 import com.teacherfinder.assessment.domain.model.valueObject.TestResultId;
-import com.teacherfinder.assessment.domain.repository.AssesmentRepository;
-import com.teacherfinder.assessment.domain.repository.QuestionOptionRepository;
-import com.teacherfinder.assessment.domain.repository.QuestionRepository;
-import com.teacherfinder.assessment.domain.repository.TestActivityRepository;
-import com.teacherfinder.assessment.domain.repository.TestResultRepository;
 import com.teacherfinder.assessment.domain.service.AssesmentService;
 import com.teacherfinder.shared.exception.ResourceNotFoundException;
 import com.teacherfinder.shared.exception.ResourceValidationException;
@@ -35,6 +33,7 @@ public class AssesmentServiceImpl implements AssesmentService {
     private static final String QUESTION = "question";
     private static final String OPTION = "option";
     private static final String ASSESSMENT = "assessment";
+    private static final String VIDEO_PRESENTATION = "Video Presentation";
     private final TestActivityRepository testRepository;
     private final QuestionRepository questionRepository;
     private final QuestionOptionRepository optionRepository;
@@ -42,12 +41,15 @@ public class AssesmentServiceImpl implements AssesmentService {
     private final TestResultFactory testResultFactory;
     private final AssesmentRepository assessmentRepository;
     private final Validator validator;
+    private final ApplicantRepository applicantRepository;
+    private final VideoPresentationRepository videoPresentationRepository;
 
-    
 
     public AssesmentServiceImpl(TestActivityRepository testRepository, QuestionRepository questionRepository,
             QuestionOptionRepository optionRepository, TestResultRepository testResultRepository,
-            TestResultFactory testResultFactory, AssesmentRepository assesmentRepository, Validator validator) {
+            TestResultFactory testResultFactory, AssesmentRepository assesmentRepository, Validator validator,
+                                ApplicantRepository applicantRepository,
+                                VideoPresentationRepository videoPresentationRepository) {
         this.testRepository = testRepository;
         this.questionRepository = questionRepository;
         this.optionRepository = optionRepository;
@@ -55,6 +57,8 @@ public class AssesmentServiceImpl implements AssesmentService {
         this.testResultFactory = testResultFactory;
         this.assessmentRepository = assesmentRepository;
         this.validator = validator;
+        this.applicantRepository = applicantRepository;
+        this.videoPresentationRepository = videoPresentationRepository;
     }
 
     @Override
@@ -172,5 +176,32 @@ public class AssesmentServiceImpl implements AssesmentService {
         TestResultId testResultId = new TestResultId(applicantId, assessmentId);
         return testResultRepository.findByTestResultId(testResultId)
             .orElseThrow(()-> new ResourceNotFoundException(TEST_RESULT));
+    }
+
+    @Override
+    public VideoPresentation createVideoPresentation(Long assessmentId,VideoPresentation videoPresentation) {
+        Set<ConstraintViolation<VideoPresentation>>violations = validator.validate(videoPresentation);
+        if(!violations.isEmpty()) {
+            throw new ResourceValidationException(VIDEO_PRESENTATION, violations);
+        }
+        if(videoPresentation.getDuration()> (double)3.00) {
+            throw  new ResourceValidationException("Video should be as a max 3 minutes ");
+        }
+        Assessment assessment = assessmentRepository.findById(assessmentId).orElseThrow(() -> new ResourceNotFoundException(ASSESSMENT, assessmentId));
+        videoPresentation.setAssessment(assessment);
+        return videoPresentationRepository.save(videoPresentation);
+    }
+
+    @Override
+    public List<VideoPresentation> getAllVideoPresentationsByApplicantId() {
+        return null;
+    }
+
+    @Override
+    public VideoPresentation getVideoPresentationById(Long assessmentId,Long iD) {
+        if(!assessmentRepository.existsById(assessmentId)){
+            throw new ResourceNotFoundException(ASSESSMENT, assessmentId);
+        }
+        return videoPresentationRepository.findById(iD).orElseThrow(()-> new ResourceNotFoundException(VIDEO_PRESENTATION , iD));
     }
 }
