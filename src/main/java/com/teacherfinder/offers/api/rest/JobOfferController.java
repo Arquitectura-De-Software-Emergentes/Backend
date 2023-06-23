@@ -20,7 +20,7 @@ import java.util.List;
         RequestMethod.DELETE
 })
 @RestController
-@RequestMapping("/job-offers")
+@RequestMapping("/api/v1/job-offers")
 public class JobOfferController {
    @Autowired
     private  JobOfferService jobOfferService;

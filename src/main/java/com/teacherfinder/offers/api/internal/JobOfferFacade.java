@@ -5,8 +5,6 @@ import com.teacherfinder.offers.application.mapper.JobOfferMapper;
 import com.teacherfinder.offers.domain.service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
-
 @Component
 public class JobOfferFacade {
 

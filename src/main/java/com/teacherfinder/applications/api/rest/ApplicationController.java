@@ -2,7 +2,6 @@ package com.teacherfinder.applications.api.rest;
 
 import java.util.List;
 
-import com.teacherfinder.applications.application.dto.GetApplicationByApplicantIdResource;
 import com.teacherfinder.applications.domain.model.entity.JobOffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

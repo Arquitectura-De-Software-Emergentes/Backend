@@ -1,6 +1,5 @@
 package com.teacherfinder.assessment.application.dto;
 
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,8 +7,7 @@ import lombok.Setter;
 @Setter
 public class TestResource {
     private Long id;
+    private String title;
     private Long numQuestions;
     private Long minimunScore;
-    private List<QuestionResource> questions;
-
 }

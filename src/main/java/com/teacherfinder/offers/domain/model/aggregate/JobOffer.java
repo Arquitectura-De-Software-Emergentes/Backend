@@ -40,7 +40,7 @@ public class JobOffer {
     private Money salary;
 
     private Long maxApplications;
-    private Long numberApplications;
+    private Long numberApplications = 0L;
 
     @Enumerated(value = EnumType.STRING)
     private Availability availability;
