@@ -1,6 +1,7 @@
 package com.teacherfinder.offers.application.service;
 
 import com.teacherfinder.applications.api.internal.ApplicationFacade;
+import com.teacherfinder.assessment.api.internal.AssessmentFacade;
 import com.teacherfinder.offers.domain.factory.PositionProfileFactory;
 import com.teacherfinder.offers.domain.model.Enum.Availability;
 import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
@@ -30,15 +31,19 @@ public class JobOfferServiceImpl implements JobOfferService {
     private final Validator validator;
     private final PositionProfileFactory profileFactory;
     private final ApplicationFacade applicationFacade;
+    private final AssessmentFacade assessmentFacade;
 
     public JobOfferServiceImpl(JobOfferRepository jobOfferRepository,
-            PositionProfileRepository positionProfileRepository, Validator validator,
-            PositionProfileFactory profileFactory, ApplicationFacade applicationFacade) {
+                               PositionProfileRepository positionProfileRepository,
+                               Validator validator, PositionProfileFactory profileFactory,
+                               ApplicationFacade applicationFacade,
+                               AssessmentFacade assessmentFacade) {
         this.jobOfferRepository = jobOfferRepository;
         this.positionProfileRepository = positionProfileRepository;
         this.validator = validator;
         this.profileFactory = profileFactory;
         this.applicationFacade = applicationFacade;
+        this.assessmentFacade = assessmentFacade;
     }
 
     @Transactional
@@ -51,7 +56,11 @@ public class JobOfferServiceImpl implements JobOfferService {
 
         PositionProfile positionProfile = generateEmptyPositionProfile();
 
-        return jobOfferRepository.save(request.withPositionProfile(positionProfile));
+        var jobOffer = jobOfferRepository.save(request.withPositionProfile(positionProfile));
+
+        assessmentFacade.createGenerateAssement(jobOffer.getId(),jobOffer.getInitialDate(),jobOffer.getEndDate());
+
+        return jobOffer;
     }
 
     @Override
@@ -134,12 +143,4 @@ public class JobOfferServiceImpl implements JobOfferService {
         }
         
     }
-
-    private JobOffer updateJobOffer(Long jobOfferId, JobOffer request){
-        return jobOfferRepository.findById(jobOfferId).map(
-                offer -> jobOfferRepository.save(offer
-                        .withNumberApplications(request.getNumberApplications())))
-                .orElseThrow(() -> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
-    }
-
 }

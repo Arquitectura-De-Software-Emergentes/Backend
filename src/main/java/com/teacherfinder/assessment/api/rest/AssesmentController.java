@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +25,7 @@ import com.teacherfinder.assessment.domain.service.AssesmentService;
     RequestMethod.GET
 })
 @RestController
-@RequestMapping("/assessments")
+@RequestMapping("api/v1/assessments")
 public class AssesmentController {
 
     @Autowired
@@ -45,29 +46,19 @@ public class AssesmentController {
     @Autowired
     VideoPresentationMapper videoPresentationMapper;
 
-    @PostMapping
-    public AssessmentResource createAssessment(@RequestBody CreateAssessmentResource resource){
-        return assessmentMapper.toResource(service.createAssessment(assessmentMapper.toModel(resource)));
+    @PostMapping("/tests")
+    public TestDetailResource CreateTest(@RequestBody CreateTestResource resource){
+        return testMapper.toDetailResource(service.createTest(testMapper.toModel(resource)));
     }
 
-    @GetMapping("job-offers/{jobOfferId}")
-    public AssessmentResource getAssessment(@RequestParam("jobOfferId") Long jobOfferId){
-        return assessmentMapper.toResource(service.getAssessmentByJobOfferId(jobOfferId));
-    }
-
-    @PostMapping("{assessmentId}/tests")
-    public TestResource addTest(@RequestParam("assessmentId") Long assessmentId,@RequestBody CreateTestResource resource){
-        return testMapper.toResource(service.addTest(assessmentId,testMapper.toModel(resource)));
-    }
-
-    @PostMapping("{assessmentId}/tests/questions")
-    public ResponseEntity<String> AddQuestion(@RequestParam("assessmentId") Long assessmentId, @RequestBody CreateQuestionResource resource){
-        return service.addQuestion(assessmentId, questionMapper.toModel(resource));
+    @PostMapping("/tests/{testId}/questions")
+    public ResponseEntity<String> AddQuestion(@RequestParam("testId") Long testId, @RequestBody CreateQuestionResource resource){
+        return service.addQuestion(testId, questionMapper.toModel(resource));
     }
 
     @GetMapping("{assessmentId}/tests")
-    public TestResource GetTestById(@RequestParam("assessmentId") Long assessmentId){
-        return testMapper.toResource(service.GetTestByAssessmentId(assessmentId));
+    public TestDetailResource GetTestById(@RequestParam("assessmentId") Long assessmentId){
+        return testMapper.toDetailResource(service.GetTestByAssessmentId(assessmentId));
     }
  
     @PostMapping("{assessmentId}/tests/applicant/{applicantId}/submit")
@@ -75,7 +66,7 @@ public class AssesmentController {
         return testResultMapper.toResource(service.calculateScore(assessmentId, applicantId, questionMapper.ResourceListToModel(resource)));
     }
     
-    @GetMapping("{assessmentId}/tests/applicant/{applicantId}")
+    @GetMapping("{assessmentId}/test-results/applicant/{applicantId}")
     public TestResultResource GetResult(@RequestParam("assessmentId") Long assessmentId,@RequestParam("applicantId") Long applicantId){
         return testResultMapper.toResource(service.getResultByTestResultId(assessmentId, applicantId));
     }
@@ -89,6 +80,21 @@ public class AssesmentController {
     @GetMapping("{assessmentId}/video-presentations{videoId}")
     public VideoPresentationResource GetVideoPresentationtById(@RequestParam("assessmentId") Long assessmentId,@RequestParam("videoId") Long videoId ){
         return videoPresentationMapper.toResource(service.getVideoPresentationById(assessmentId,videoId));
+    }
+
+    @GetMapping("tests/{testId}")
+    public TestDetailResource getTestById(@RequestParam("testId") Long testId){
+        return testMapper.toDetailResource(service.getTestActivity(testId));
+    }
+
+    @GetMapping("recuiter/{recuiterId}/tests")
+    public List<TestResource> getTestByRecruiterId(@RequestParam("recuiterId") Long recruiterId){
+        return testMapper.modelListToResource(service.getTestsActivityByRecruiterId(recruiterId));
+    }
+
+    @PutMapping("{assessmentId}/test/{testId}")
+    public ResponseEntity<String> toAssign(@RequestParam("assessmentId") Long assessmentId, @RequestParam("testId") Long testId ){
+        return service.addTest(assessmentId, testId);
     }
 
 }
