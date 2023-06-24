@@ -53,11 +53,11 @@ public class ApplicantController {
         return service.getCv(appliacntId);
     }
     @PostMapping
-    public ApplicantResource createApplicant(@RequestBody CreateApplicantResource createApplicantResource){
+    public ApplicantResource register(@RequestBody CreateApplicantResource createApplicantResource){
 
         Applicant applicant = applicantMapper.toModel(createApplicantResource);
 
-        Applicant response = service.create(applicant);
+        Applicant response = service.register(applicant);
 
         return applicantMapper.toResource(response);
     }

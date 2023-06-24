@@ -12,9 +12,11 @@ import javax.persistence.*;
 @Table(name = "recruiters")
 public class Recruiter extends User {
     @Id
-    private Long id;
-    @OneToOne
-    @JoinColumn(name = "institution_profile_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long recruiterId;
+
+    @OneToOne(mappedBy = "recruiter")
     private InstitutionProfile institutionProfile;
+    
     private String position;
 }

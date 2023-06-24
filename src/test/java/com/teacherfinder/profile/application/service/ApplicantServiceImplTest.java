@@ -62,7 +62,7 @@ class ApplicantServiceImplTest {
         when(applicantRepository.save(applicant)).thenReturn(applicant);
 
         // Call method to test
-        Applicant result = applicantService.create(applicant);
+        Applicant result = applicantService.register(applicant);
 
         // Verify results
         assertEquals(applicant, result);

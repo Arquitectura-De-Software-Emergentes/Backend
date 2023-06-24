@@ -45,7 +45,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     @Override
     @Transactional
-    public Applicant create(Applicant applicant) {
+    public Applicant register(Applicant applicant) {
         Set<ConstraintViolation<Applicant>> violations = validator.validate(applicant);
 
         if (!violations.isEmpty())

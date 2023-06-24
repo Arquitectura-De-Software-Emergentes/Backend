@@ -16,4 +16,8 @@ public class MappingConfiguration {
     public JobExperienceInformationMapper jobExperienceInformationMapper(){
         return new JobExperienceInformationMapper();
     }
+    @Bean
+    public RecruiterMapper recruiterMapper(){
+        return new RecruiterMapper();
+    }
 }
