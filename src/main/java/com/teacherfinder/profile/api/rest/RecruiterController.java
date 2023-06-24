@@ -3,12 +3,17 @@ package com.teacherfinder.profile.api.rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teacherfinder.profile.application.dto.CreateRecruiterResource;
+import com.teacherfinder.profile.application.dto.InstitutionProfileResource;
 import com.teacherfinder.profile.application.dto.RecruiterResource;
+import com.teacherfinder.profile.application.dto.UpdateInstitutionProfileResource;
+import com.teacherfinder.profile.application.mapper.InstitutionProfileMapper;
 import com.teacherfinder.profile.application.mapper.RecruiterMapper;
 import com.teacherfinder.profile.domain.service.RecruiterService;
 
@@ -26,10 +31,18 @@ public class RecruiterController {
     RecruiterService service;
 
     @Autowired
-    RecruiterMapper mapper;
+    RecruiterMapper recruiterMapper;
+
+    @Autowired
+    InstitutionProfileMapper institutionProfileMapper;
 
     @PostMapping
     public RecruiterResource register(CreateRecruiterResource recruiterResource){
-        return mapper.toResource(service.register(mapper.toModel(recruiterResource)));
+        return recruiterMapper.toResource(service.register(recruiterMapper.toModel(recruiterResource)));
+    }
+
+    @PutMapping("{recruiterId}/profiles")
+    public InstitutionProfileResource updateProfile(@RequestParam("recruiterId") Long recruiterId,UpdateInstitutionProfileResource resource){
+        return institutionProfileMapper.toResource(service.updateInstitutionProfile(recruiterId, institutionProfileMapper.toModel(resource)));
     }
 }

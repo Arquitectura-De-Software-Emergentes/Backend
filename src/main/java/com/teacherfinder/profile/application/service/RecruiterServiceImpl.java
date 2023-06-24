@@ -14,17 +14,18 @@ import com.teacherfinder.profile.domain.model.entity.InstitutionProfile;
 import com.teacherfinder.profile.domain.repository.InstitutionProfileRepository;
 import com.teacherfinder.profile.domain.repository.RecruiterRepository;
 import com.teacherfinder.profile.domain.service.RecruiterService;
+import com.teacherfinder.shared.exception.ResourceNotFoundException;
 import com.teacherfinder.shared.exception.ResourceValidationException;
 
 @Service
-public class RecruiterServiceImpl implements RecruiterService{
+public class RecruiterServiceImpl implements RecruiterService {
 
     private static final String RECRUITER = "recruiter";
+    private static final String INSTITUTION_PROFILE = "institution profile";
     private final RecruiterRepository recruiterRepository;
     private final InstitutionProfileRepository institutionProfileRepository;
     private final InstitutionProfileFactory profileFactory;
     private final Validator validator;
-
 
     public RecruiterServiceImpl(RecruiterRepository recruiterRepository,
             InstitutionProfileRepository institutionProfileRepository, InstitutionProfileFactory profileFactory,
@@ -40,9 +41,9 @@ public class RecruiterServiceImpl implements RecruiterService{
     public Recruiter register(Recruiter recruiter) {
         Set<ConstraintViolation<Recruiter>> violations = validator.validate(recruiter);
 
-        if(!violations.isEmpty())
+        if (!violations.isEmpty())
             throw new ResourceValidationException(RECRUITER, violations);
-        
+
         recruiter = recruiterRepository.save(recruiter);
 
         generateProfile(recruiter);
@@ -50,9 +51,27 @@ public class RecruiterServiceImpl implements RecruiterService{
         return recruiter;
     }
 
-    private void generateProfile(Recruiter recruiter){
+    private void generateProfile(Recruiter recruiter) {
         InstitutionProfile profile = profileFactory.generateInstitutionProfile(recruiter);
         institutionProfileRepository.save(profile);
     }
-    
+
+    @Override
+    public InstitutionProfile updateInstitutionProfile(Long recruiterId, InstitutionProfile institutionProfile) {
+        Set<ConstraintViolation<InstitutionProfile>> violations = validator.validate(institutionProfile);
+
+        if(!violations.isEmpty())
+            throw new ResourceValidationException(INSTITUTION_PROFILE, violations);
+
+        return institutionProfileRepository.findById(recruiterId).map(
+            profile -> institutionProfileRepository.save(profile
+            .withAddress(institutionProfile.getAddress())
+            .withDescription(institutionProfile.getDescription())
+            .withImage(institutionProfile.getImage())
+            .withName(institutionProfile.getName())
+            .withPhoneNumber(institutionProfile.getPhoneNumber())
+            .withUrlWebPage(institutionProfile.getUrlWebPage()))
+        ).orElseThrow(()-> new ResourceNotFoundException(INSTITUTION_PROFILE, recruiterId));
+    }
+
 }

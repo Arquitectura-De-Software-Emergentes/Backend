@@ -1,7 +1,9 @@
 package com.teacherfinder.profile.domain.service;
 
 import com.teacherfinder.profile.domain.model.aggregate.Recruiter;
+import com.teacherfinder.profile.domain.model.entity.InstitutionProfile;
 
 public interface RecruiterService {
-    public Recruiter register(Recruiter recruiter);
+    Recruiter register(Recruiter recruiter);
+    InstitutionProfile updateInstitutionProfile(Long recruiterId, InstitutionProfile institutionProfile);
 }
