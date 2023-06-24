@@ -5,5 +5,6 @@ import com.teacherfinder.profile.domain.model.entity.InstitutionProfile;
 
 public interface RecruiterService {
     Recruiter register(Recruiter recruiter);
+    InstitutionProfile getInstitutionProfileByRecruiterId(Long recruiterId);
     InstitutionProfile updateInstitutionProfile(Long recruiterId, InstitutionProfile institutionProfile);
 }

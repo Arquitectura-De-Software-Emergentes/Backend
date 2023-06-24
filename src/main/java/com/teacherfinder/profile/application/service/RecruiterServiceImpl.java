@@ -74,4 +74,10 @@ public class RecruiterServiceImpl implements RecruiterService {
         ).orElseThrow(()-> new ResourceNotFoundException(INSTITUTION_PROFILE, recruiterId));
     }
 
+    @Override
+    public InstitutionProfile getInstitutionProfileByRecruiterId(Long recruiterId) {
+        return institutionProfileRepository.findById(recruiterId)
+            .orElseThrow(()-> new ResourceNotFoundException(INSTITUTION_PROFILE, recruiterId));   
+    }
+
 }

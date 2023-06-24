@@ -20,4 +20,8 @@ public class MappingConfiguration {
     public RecruiterMapper recruiterMapper(){
         return new RecruiterMapper();
     }
+    @Bean
+    public InstitutionProfileMapper institutionProfileMapper(){
+        return new InstitutionProfileMapper();
+    }
 }

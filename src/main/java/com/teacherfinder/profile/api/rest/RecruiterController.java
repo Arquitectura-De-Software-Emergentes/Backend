@@ -2,6 +2,7 @@ package com.teacherfinder.profile.api.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,11 @@ public class RecruiterController {
     @PostMapping
     public RecruiterResource register(CreateRecruiterResource recruiterResource){
         return recruiterMapper.toResource(service.register(recruiterMapper.toModel(recruiterResource)));
+    }
+
+    @GetMapping("{recruiterId}/profiles")
+    public InstitutionProfileResource getInstitutionProfileByRecruiterId(@RequestParam("recruiterId") Long recruiterId){
+        return institutionProfileMapper.toResource(service.getInstitutionProfileByRecruiterId(recruiterId));
     }
 
     @PutMapping("{recruiterId}/profiles")
