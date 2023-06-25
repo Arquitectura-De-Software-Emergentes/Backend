@@ -24,4 +24,9 @@ public class MappingConfiguration {
     public InstitutionProfileMapper institutionProfileMapper(){
         return new InstitutionProfileMapper();
     }
+
+    @Bean
+    public UserMapper userMapper(){
+        return new UserMapper();
+    }
 }

@@ -1,6 +1,7 @@
 package com.teacherfinder.profile.api.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teacherfinder.profile.application.dto.ApplicantResource;
+import com.teacherfinder.profile.application.dto.AuthCredentials;
 import com.teacherfinder.profile.application.dto.CreateApplicantResource;
 import com.teacherfinder.profile.application.dto.CreateRecruiterResource;
 import com.teacherfinder.profile.application.dto.RecruiterResource;
@@ -44,5 +46,12 @@ public class AuthController {
     @PostMapping("/applicants/register")
     public ApplicantResource registerApplicant(@RequestBody CreateApplicantResource resource){
         return applicantMapper.toResource(service.register(applicantMapper.toModel(resource)));
+    }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<?> login(@RequestBody AuthCredentials credentials) {
+
+        return service.login(credentials);
+
     }
 }
