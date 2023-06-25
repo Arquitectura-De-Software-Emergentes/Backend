@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.teacherfinder.profile.domain.model.aggregate.Applicant;
+import com.teacherfinder.profile.domain.model.aggregate.User;
 import com.teacherfinder.profile.domain.model.entity.ApplicantProfile;
 import com.teacherfinder.profile.domain.model.entity.JobExperienceInformation;
 import com.teacherfinder.profile.domain.model.valueObjects.ContactInformation;
@@ -20,12 +20,12 @@ public class ApplicantProfileFactory {
     private static final String EMPTY = ""; 
     private static final Date NOW = new Date();
 
-    public ApplicantProfile createProfile(Applicant applicant){
+    public ApplicantProfile createProfile(User applicant){
         AcademicInformation academicInformation = new AcademicInformation(EMPTY,EMPTY,EMPTY);
         ContactInformation contactInformation = new ContactInformation(EMPTY,EMPTY,EMPTY);
         PersonalInformation personalInformation = new PersonalInformation(EMPTY,EMPTY,EMPTY,NOW,EMPTY);
         List<JobExperienceInformation> jobExperienceInformations = new ArrayList<JobExperienceInformation>();
 
-        return new ApplicantProfile(applicant.getApplicantId(), academicInformation, contactInformation, personalInformation, jobExperienceInformations, applicant);
+        return new ApplicantProfile(applicant.getUserId(), academicInformation, contactInformation, personalInformation, jobExperienceInformations, applicant);
     }
 }

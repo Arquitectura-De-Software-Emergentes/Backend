@@ -7,10 +7,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RecruiterResource {
+public class UserResource {
     private Long userId;
+
     private String username;
-    private String password;
-    private String position;
+
     private Role role;
 }

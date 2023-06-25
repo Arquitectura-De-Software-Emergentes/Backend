@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ApplicantResource {
-    private Long applicantId;
+    private Long userId;
     private String username;
     private CurriculumVitae cv;
     private Role role;

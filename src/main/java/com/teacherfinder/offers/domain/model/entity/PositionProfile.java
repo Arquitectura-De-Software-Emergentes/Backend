@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "positions_profiles")
+@Table(name = "position_profiles")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class PositionProfile {
     @Id
