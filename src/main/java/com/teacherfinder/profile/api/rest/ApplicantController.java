@@ -1,7 +1,6 @@
 package com.teacherfinder.profile.api.rest;
 
 import com.teacherfinder.profile.application.dto.ApplicantProfileResource;
-import com.teacherfinder.profile.application.dto.CreateApplicantResource;
 import com.teacherfinder.profile.application.dto.CreateJobExperienceInformationResource;
 import com.teacherfinder.profile.application.dto.JobExperienceInformationResource;
 import com.teacherfinder.profile.application.dto.UpdateApplicantProfileResource;
@@ -19,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.teacherfinder.profile.application.dto.ApplicantResource;
-import com.teacherfinder.profile.application.mapper.ApplicantMapper;
-import com.teacherfinder.profile.domain.model.aggregate.Applicant;
 import com.teacherfinder.profile.domain.model.valueObjects.CurriculumVitae;
 import com.teacherfinder.profile.domain.service.ApplicantService;
 
@@ -40,9 +36,6 @@ public class ApplicantController {
     ApplicantService service;
 
     @Autowired
-    ApplicantMapper applicantMapper;
-
-    @Autowired
     ApplicantProfileMapper profileMapper;
 
     @Autowired
@@ -51,15 +44,6 @@ public class ApplicantController {
     @GetMapping("/{id}/cv")
     public CurriculumVitae getCV(@PathVariable("id") Long appliacntId) {
         return service.getCv(appliacntId);
-    }
-    @PostMapping
-    public ApplicantResource register(@RequestBody CreateApplicantResource createApplicantResource){
-
-        Applicant applicant = applicantMapper.toModel(createApplicantResource);
-
-        Applicant response = service.register(applicant);
-
-        return applicantMapper.toResource(response);
     }
 
     @PostMapping("/experience")
@@ -84,6 +68,5 @@ public class ApplicantController {
     public ApplicantProfileResource getProfile(@PathVariable("id") Long appliantId){
         return profileMapper.toResource(service.getApplicantProfile(appliantId));
     }
-
 
 }

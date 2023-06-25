@@ -2,7 +2,7 @@ package com.teacherfinder.profile.domain.model.entity;
 
 import javax.persistence.*;
 
-import com.teacherfinder.profile.domain.model.aggregate.Recruiter;
+import com.teacherfinder.profile.domain.model.aggregate.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,5 +27,5 @@ public class InstitutionProfile {
     private String address;
     @OneToOne
     @JoinColumn(name = "recruiter_id")
-    private Recruiter recruiter;
+    private User recruiter;
 }

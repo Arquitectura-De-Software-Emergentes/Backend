@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RecruiterResource {
-    private Long recruiterId;
+    private Long userId;
     private String username;
     private String password;
     private String position;

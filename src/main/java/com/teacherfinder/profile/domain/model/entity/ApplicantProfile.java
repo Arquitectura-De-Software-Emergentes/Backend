@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.teacherfinder.profile.domain.model.aggregate.Applicant;
+import com.teacherfinder.profile.domain.model.aggregate.User;
 import com.teacherfinder.profile.domain.model.valueObjects.AcademicInformation;
 import com.teacherfinder.profile.domain.model.valueObjects.ContactInformation;
 import com.teacherfinder.profile.domain.model.valueObjects.PersonalInformation;
@@ -50,7 +50,7 @@ public class ApplicantProfile {
     private List<JobExperienceInformation> jobExperienceInformations;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "applicant_id", referencedColumnName = "applicantId")
-    private Applicant applicant;
+    @JoinColumn(name = "applicant_id")
+    private User applicant;
 
 }
