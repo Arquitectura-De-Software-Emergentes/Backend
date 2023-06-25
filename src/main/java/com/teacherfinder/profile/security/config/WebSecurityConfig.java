@@ -33,7 +33,7 @@ public class WebSecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests().antMatchers("/api/v1/auth/**",
-                        "/swagger-ui/**", "/api-docs/**")
+                        "/swagger-ui/**", "/api-docs/**", "/api/v1/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
