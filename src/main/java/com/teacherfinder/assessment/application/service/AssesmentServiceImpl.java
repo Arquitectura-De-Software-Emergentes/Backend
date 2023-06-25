@@ -223,6 +223,6 @@ public class AssesmentServiceImpl implements AssesmentService {
 
         assessmentRepository.save(currentAsessment);
 
-        return new ResponseEntity<String>("Test asigned successfully", HttpStatus.OK);
+        return new ResponseEntity<String>("Test assigned successfully", HttpStatus.OK);
     }
 }
