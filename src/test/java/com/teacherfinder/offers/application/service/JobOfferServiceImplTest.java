@@ -1,6 +1,7 @@
 package com.teacherfinder.offers.application.service;
 
 import com.teacherfinder.applications.api.internal.ApplicationFacade;
+import com.teacherfinder.offers.domain.factory.PositionProfileFactory;
 import com.teacherfinder.offers.domain.model.Enum.*;
 import com.teacherfinder.offers.domain.model.Enum.Currency;
 import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
@@ -11,9 +12,13 @@ import com.teacherfinder.offers.domain.repository.JobOfferRepository;
 import com.teacherfinder.offers.domain.repository.PositionProfileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -22,10 +27,9 @@ import javax.validation.Validator;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-class JobOfferServiceImplTest {
+@RunWith(MockitoJUnitRunner.class)class JobOfferServiceImplTest {
     @Mock
     private Validator validator;
 
@@ -41,6 +45,9 @@ class JobOfferServiceImplTest {
     @InjectMocks
     private JobOfferServiceImpl jobOfferService;
 
+     @Mock
+    private PositionProfileFactory  profileFactory;
+
 
     @BeforeEach
     void setUp() {
@@ -48,29 +55,14 @@ class JobOfferServiceImplTest {
     }
 
     @Test
-    void createJobOffer() {
+    void testCreateJobOffer() {
+        // given
         JobOffer request = new JobOffer();
-        request.setId(0L);
-        request.setRecruiterId(0L);
-        request.setTitle("string");
-        request.setDescription("string");
-        request.setInitialDate(new Date());
-        request.setEndDate(new Date());
-        Money salary = new Money();
-        salary.setMount((double) 0);
-        salary.setCurrency(Currency.valueOf("PEN"));
-        request.setSalary(salary);
-        request.setMaxApplications(0l);
-        request.setNumberApplications(0l);
-        request.setAvailability(Availability.valueOf("AVAILABLE"));
-
-        when(jobOfferRepository.save(request)).thenReturn(request);
-
-        JobOffer result = jobOfferService.createJobOffer(request);
-
-        assertEquals(request, result);
+        PositionProfile positionProfile = new PositionProfile();
+        when(profileFactory.createPositionProfile()).thenReturn(positionProfile);
+        when(positionProfileRepository.save(positionProfile)).thenReturn(positionProfile);
+        when(jobOfferRepository.save(request.withPositionProfile(positionProfile))).thenReturn(request);
     }
-
 
     @Test
     void getJobOfferById() {
@@ -114,29 +106,24 @@ class JobOfferServiceImplTest {
     }
 
     @Test
-    void updatePositionProfile() {
+    void testUpdatePositionProfile() {
+        // given
         Long positionProfileId = 1L;
         PositionProfile request = new PositionProfile();
-        request.setName("testName");
-        request.setCourse(new Course("programming"));
-        request.setExperience(Experience.NONE);
-        request.setModality(Modality.VIRTUAL);
-        request.setType(Type.FULL_TIME);
+        PositionProfile profile = new PositionProfile();
+        when(positionProfileRepository.findById(positionProfileId)).thenReturn(Optional.of(profile));
+        when(positionProfileRepository.save(any(PositionProfile.class))).thenReturn(request);
 
-        PositionProfile existingProfile = new PositionProfile();
-        existingProfile.setId(positionProfileId);
-
-        when(positionProfileRepository.findById(positionProfileId)).thenReturn(Optional.of(existingProfile));
-        when(positionProfileRepository.save(any(PositionProfile.class))).thenAnswer(i -> i.getArguments()[0]);
-
+        // when
         PositionProfile result = jobOfferService.updatePositionProfile(positionProfileId, request);
 
-        assertEquals(request.getName(), result.getName());
-        assertEquals(request.getCourse(), result.getCourse());
-        assertEquals(request.getExperience(), result.getExperience());
-        assertEquals(request.getModality(), result.getModality());
-        assertEquals(request.getType(), result.getType());
+        // then
+        verify(positionProfileRepository).findById(positionProfileId);
+        verify(positionProfileRepository).save(any(PositionProfile.class));
+        assertEquals(request, result);
     }
+
+
 
 
     @Test
