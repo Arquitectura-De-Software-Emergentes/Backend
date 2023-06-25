@@ -1,6 +1,5 @@
 package com.teacherfinder.offers.application.service;
 
-import com.teacherfinder.applications.api.internal.ApplicationFacade;
 import com.teacherfinder.assessment.api.internal.AssessmentFacade;
 import com.teacherfinder.offers.domain.factory.PositionProfileFactory;
 import com.teacherfinder.offers.domain.model.Enum.Availability;
@@ -30,19 +29,16 @@ public class JobOfferServiceImpl implements JobOfferService {
     private final PositionProfileRepository positionProfileRepository;
     private final Validator validator;
     private final PositionProfileFactory profileFactory;
-    private final ApplicationFacade applicationFacade;
     private final AssessmentFacade assessmentFacade;
 
     public JobOfferServiceImpl(JobOfferRepository jobOfferRepository,
                                PositionProfileRepository positionProfileRepository,
                                Validator validator, PositionProfileFactory profileFactory,
-                               ApplicationFacade applicationFacade,
                                AssessmentFacade assessmentFacade) {
         this.jobOfferRepository = jobOfferRepository;
         this.positionProfileRepository = positionProfileRepository;
         this.validator = validator;
         this.profileFactory = profileFactory;
-        this.applicationFacade = applicationFacade;
         this.assessmentFacade = assessmentFacade;
     }
 
@@ -114,22 +110,6 @@ public class JobOfferServiceImpl implements JobOfferService {
                 .orElseThrow(() -> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
 
         return new ResponseEntity<String>("The offer has been disabled", HttpStatus.OK);
-    }
-
-    @Override
-    @Transactional
-    public ResponseEntity<String> apply(Long jobOfferId, Long applicantId) {
-
-        JobOffer currentJobOffer = jobOfferRepository.findById(jobOfferId)
-            .orElseThrow(()-> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
-
-        validateApplication(currentJobOffer);
-        ResponseEntity<String> response = applicationFacade.apply(jobOfferId, applicantId);
-        
-        currentJobOffer.setNumberApplications(currentJobOffer.getNumberApplications() + 1);
-        jobOfferRepository.save(currentJobOffer);
-
-        return response;
     }
 
     private void validateApplication(JobOffer currentJobOffer){

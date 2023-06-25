@@ -62,7 +62,9 @@ public class ApplicationServiceImpl implements ApplicationService{
 
     @Override
     @Transactional
-    public ResponseEntity<String> apply(ApplicationId applicationId) {
+    public ResponseEntity<String> apply(Long jobOfferId, Long applicantId) {
+
+        ApplicationId applicationId = new ApplicationId(applicantId, jobOfferId);
 
         validateApplication(applicationId);
 

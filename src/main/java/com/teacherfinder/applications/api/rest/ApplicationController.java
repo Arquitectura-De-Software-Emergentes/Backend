@@ -3,10 +3,13 @@ package com.teacherfinder.applications.api.rest;
 import java.util.List;
 
 import com.teacherfinder.applications.domain.model.entity.JobOffer;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +41,11 @@ public class ApplicationController {
     @GetMapping("applicants/{applicantId}")
     public List<JobOffer> getApplicationsByApplicantId(@PathVariable("applicantId") Long applicantId){
         return service.getApplicationsByApplicantId(applicantId);
+    }
+
+    @PostMapping("/apply/job-offers/{jobOfferId}/aplicants/{applicantId}")
+    public ResponseEntity<String> apply(@PathVariable("jobOfferId") Long jobOfferId, @PathVariable("applicantId") Long applicantId){
+        
+        return service.apply(jobOfferId, applicantId);
     }
 }

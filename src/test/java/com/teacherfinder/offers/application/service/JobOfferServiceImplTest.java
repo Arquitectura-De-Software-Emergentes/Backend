@@ -1,6 +1,5 @@
 package com.teacherfinder.offers.application.service;
 
-import com.teacherfinder.applications.api.internal.ApplicationFacade;
 import com.teacherfinder.offers.domain.model.Enum.*;
 import com.teacherfinder.offers.domain.model.Enum.Currency;
 import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
@@ -35,8 +34,8 @@ class JobOfferServiceImplTest {
     @Mock
     private PositionProfileRepository positionProfileRepository;
 
-    @Mock
-    private ApplicationFacade applicationFacade;
+    /*@Mock
+    private ApplicationFacade applicationFacade;*/
 
     @InjectMocks
     private JobOfferServiceImpl jobOfferService;
@@ -170,7 +169,7 @@ class JobOfferServiceImplTest {
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals("The offer has been disabled", result.getBody());
     }
-
+/* 
     @Test
     void apply() {
         Long jobOfferId = 1L;
@@ -189,5 +188,5 @@ class JobOfferServiceImplTest {
 
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals("Application successful", result.getBody());
-    }
+    }*/
 }
