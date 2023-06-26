@@ -46,10 +46,7 @@ public class JobOffer {
     private Availability availability;
 
     @ManyToOne
-    @JoinColumn(
-            name = "id_positions_profiles" ,
-            referencedColumnName = "id"
-    )
+    @JoinColumn(name = "id_positions_profiles")
     private PositionProfile positionProfile;
 
 }
