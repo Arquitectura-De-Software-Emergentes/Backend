@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import com.teacherfinder.profile.domain.model.Enum.Role;
 import org.springframework.stereotype.Service;
 
 import com.teacherfinder.profile.domain.factory.InstitutionProfileFactory;
@@ -21,6 +22,7 @@ public class RecruiterServiceImpl implements RecruiterService {
 
     private static final String INSTITUTION_PROFILE = "institution profile";
     private final InstitutionProfileRepository institutionProfileRepository;
+    private final UserRepository userRepository;
     private final InstitutionProfileFactory profileFactory;
     private final Validator validator;
 
@@ -30,6 +32,7 @@ public class RecruiterServiceImpl implements RecruiterService {
         this.institutionProfileRepository = institutionProfileRepository;
         this.profileFactory = profileFactory;
         this.validator = validator;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class RecruiterServiceImpl implements RecruiterService {
         Set<ConstraintViolation<InstitutionProfile>> violations = validator.validate(institutionProfile);
 
         if(!violations.isEmpty())
-            throw new ResourceValidationException(INSTITUTION_PROFILE, violations);
+            throw new ResourceValidationException("Recruiter", violations);
 
         return institutionProfileRepository.findById(recruiterId).map(
             profile -> institutionProfileRepository.save(profile
@@ -53,12 +56,17 @@ public class RecruiterServiceImpl implements RecruiterService {
     @Override
     public InstitutionProfile getInstitutionProfileByRecruiterId(Long recruiterId) {
         return institutionProfileRepository.findById(recruiterId)
-            .orElseThrow(()-> new ResourceNotFoundException(INSTITUTION_PROFILE, recruiterId));   
+            .orElseThrow(()-> new ResourceNotFoundException("Recruiter", recruiterId));
     }
 
     @Override
     public void generateProfile(User recruiter) {
         InstitutionProfile profile = profileFactory.generateInstitutionProfile(recruiter);
         institutionProfileRepository.save(profile);
+    }
+
+    @Override
+    public Boolean exist(long recruiterId) {
+        return userRepository.existsByUserIdAndRole(recruiterId, Role.RECRUITER);
     }
 }

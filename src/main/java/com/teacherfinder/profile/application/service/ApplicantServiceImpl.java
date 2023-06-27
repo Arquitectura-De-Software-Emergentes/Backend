@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import com.teacherfinder.profile.domain.model.Enum.Role;
 import com.teacherfinder.profile.domain.repository.ApplicantProfileRepository;
 import org.springframework.stereotype.Service;
 
@@ -97,6 +98,11 @@ public class ApplicantServiceImpl implements ApplicantService {
     public void createProfile(User applicant){
         ApplicantProfile profile = profileFactory.createProfile(applicant);
         profileRepository.save(profile);
+    }
+
+    @Override
+    public Boolean exist(Long userId) {
+        return userRepository.existsByUserIdAndRole(userId, Role.APPLICANT);
     }
 
 }

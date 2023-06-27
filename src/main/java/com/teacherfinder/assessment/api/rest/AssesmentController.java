@@ -56,29 +56,29 @@ public class AssesmentController {
         return service.addQuestion(testId, questionMapper.toModel(resource));
     }
 
-    @GetMapping("{assessmentId}/tests")
-    public TestDetailResource GetTestById(@RequestParam("assessmentId") Long assessmentId){
+    @GetMapping("{jobOfferId}/tests")
+    public TestDetailResource GetTestById(@RequestParam("jobOfferId") Long assessmentId){
         return testMapper.toDetailResource(service.GetTestByAssessmentId(assessmentId));
     }
  
-    @PostMapping("{assessmentId}/tests/applicant/{applicantId}/submit")
-    public TestResultResource submitTest(@RequestParam("assessmentId") Long assessmentId,@RequestParam("applicantId") Long applicantId ,@RequestBody List<QuestionResource> resource){
+    @PostMapping("{jobOfferId}/tests/applicant/{applicantId}/submit")
+    public TestResultResource submitTest(@RequestParam("jobOfferId") Long assessmentId,@RequestParam("applicantId") Long applicantId ,@RequestBody List<QuestionResource> resource){
         return testResultMapper.toResource(service.calculateScore(assessmentId, applicantId, questionMapper.ResourceListToModel(resource)));
     }
     
-    @GetMapping("{assessmentId}/test-results/applicant/{applicantId}")
-    public TestResultResource GetResult(@RequestParam("assessmentId") Long assessmentId,@RequestParam("applicantId") Long applicantId){
+    @GetMapping("{jobOfferId}/test-results/applicant/{applicantId}")
+    public TestResultResource GetResult(@RequestParam("jobOfferId") Long assessmentId,@RequestParam("applicantId") Long applicantId){
         return testResultMapper.toResource(service.getResultByTestResultId(assessmentId, applicantId));
     }
 
-    @PostMapping("/{assessmentId}/video-presentations")
-    public VideoPresentationResource addVideoPresentation(@RequestParam("assessmentId") Long assessmentId ,@RequestBody CreateVideoPresentationResource resource){
+    @PostMapping("/{jobOfferId}/video-presentations")
+    public VideoPresentationResource addVideoPresentation(@RequestParam("jobOfferId") Long assessmentId ,@RequestBody CreateVideoPresentationResource resource){
         return videoPresentationMapper.toResource(service.createVideoPresentation(assessmentId , videoPresentationMapper.toModel(resource)));
 
     }
 
-    @GetMapping("{assessmentId}/video-presentations{videoId}")
-    public VideoPresentationResource GetVideoPresentationtById(@RequestParam("assessmentId") Long assessmentId,@RequestParam("videoId") Long videoId ){
+    @GetMapping("{jobOfferId}/video-presentations{videoId}")
+    public VideoPresentationResource GetVideoPresentationtById(@RequestParam("jobOfferId") Long assessmentId,@RequestParam("videoId") Long videoId ){
         return videoPresentationMapper.toResource(service.getVideoPresentationById(assessmentId,videoId));
     }
 
@@ -92,7 +92,7 @@ public class AssesmentController {
         return testMapper.modelListToResource(service.getTestsActivityByRecruiterId(recruiterId));
     }
 
-    @PutMapping("{assessmentId}/test/{testId}")
+    @PutMapping("{jobOfferId}/test/{testId}")
     public ResponseEntity<String> toAssign(@RequestParam("assessmentId") Long assessmentId, @RequestParam("testId") Long testId ){
         return service.addTest(assessmentId, testId);
     }

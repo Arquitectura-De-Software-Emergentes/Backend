@@ -8,6 +8,7 @@ import com.teacherfinder.offers.domain.model.entity.PositionProfile;
 import com.teacherfinder.offers.domain.repository.JobOfferRepository;
 import com.teacherfinder.offers.domain.repository.PositionProfileRepository;
 import com.teacherfinder.offers.domain.service.JobOfferService;
+import com.teacherfinder.profile.api.internal.ProfileFacade;
 import com.teacherfinder.shared.exception.ResourceNotFoundException;
 import com.teacherfinder.shared.exception.ResourceValidationException;
 
@@ -30,16 +31,18 @@ public class JobOfferServiceImpl implements JobOfferService {
     private final Validator validator;
     private final PositionProfileFactory profileFactory;
     private final AssessmentFacade assessmentFacade;
+    private final ProfileFacade profileFacade;
 
     public JobOfferServiceImpl(JobOfferRepository jobOfferRepository,
                                PositionProfileRepository positionProfileRepository,
                                Validator validator, PositionProfileFactory profileFactory,
-                               AssessmentFacade assessmentFacade) {
+                               AssessmentFacade assessmentFacade, ProfileFacade profileFacade) {
         this.jobOfferRepository = jobOfferRepository;
         this.positionProfileRepository = positionProfileRepository;
         this.validator = validator;
         this.profileFactory = profileFactory;
         this.assessmentFacade = assessmentFacade;
+        this.profileFacade = profileFacade;
     }
 
     @Transactional
@@ -49,6 +52,9 @@ public class JobOfferServiceImpl implements JobOfferService {
         if (!violations.isEmpty()) {
             throw new ResourceValidationException(JOB_OFFER, violations);
         }
+
+        if(!profileFacade.recruiterExist(request.getRecruiterId()))
+            throw new ResourceNotFoundException("Recruiter", request.getRecruiterId());
 
         PositionProfile positionProfile = generateEmptyPositionProfile();
 
@@ -72,6 +78,8 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     @Override
     public List<JobOffer> getAllJobOfferByRecruiterId(Long recruiterId) {
+        if(!profileFacade.recruiterExist(recruiterId))
+            throw new ResourceNotFoundException("Recruiter", recruiterId);
         return jobOfferRepository.findByRecruiterId(recruiterId);
     }
 
@@ -110,17 +118,5 @@ public class JobOfferServiceImpl implements JobOfferService {
                 .orElseThrow(() -> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
 
         return new ResponseEntity<String>("The offer has been disabled", HttpStatus.OK);
-    }
-
-    private void validateApplication(JobOffer currentJobOffer){
-
-        if(currentJobOffer.getAvailability() == Availability.UNAVAILABLE)
-            throw new ResourceValidationException("This job offer is not available");
-        
-        if(currentJobOffer.getNumberApplications()>= currentJobOffer.getMaxApplications()){
-            this.disable(currentJobOffer.getId());
-            throw new ResourceValidationException("this job offer don't have positions available to apply");
-        }
-        
     }
 }

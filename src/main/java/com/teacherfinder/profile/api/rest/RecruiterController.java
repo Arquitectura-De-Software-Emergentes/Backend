@@ -39,4 +39,5 @@ public class RecruiterController {
     public InstitutionProfileResource updateProfile(@RequestParam("recruiterId") Long recruiterId,UpdateInstitutionProfileResource resource){
         return institutionProfileMapper.toResource(service.updateInstitutionProfile(recruiterId, institutionProfileMapper.toModel(resource)));
     }
+
 }

@@ -1,5 +1,6 @@
 package com.teacherfinder.profile.api.rest;
 
+import com.teacherfinder.profile.domain.model.Enum.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,11 +41,13 @@ public class AuthController {
 
     @PostMapping("/recruiters/register")
     public RecruiterResource registerRecruiter(@RequestBody CreateRecruiterResource resource){
+        resource.setRole(Role.RECRUITER);
         return recruiterMapper.toResource(service.register(recruiterMapper.toModel(resource)));
     }
 
     @PostMapping("/applicants/register")
     public ApplicantResource registerApplicant(@RequestBody CreateApplicantResource resource){
+        resource.setRole(Role.APPLICANT);
         return applicantMapper.toResource(service.register(applicantMapper.toModel(resource)));
     }
 

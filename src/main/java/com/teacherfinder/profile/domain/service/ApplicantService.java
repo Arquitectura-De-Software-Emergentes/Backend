@@ -12,4 +12,5 @@ public interface ApplicantService {
     JobExperienceInformation addJobExperience(JobExperienceInformation experience);
     ApplicantProfile getApplicantProfile(Long applicantId);
     void createProfile(User applicant);
+    Boolean exist(Long userId);
 }
