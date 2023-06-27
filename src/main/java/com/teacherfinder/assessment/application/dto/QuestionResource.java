@@ -11,6 +11,6 @@ public class QuestionResource {
     private Long id;
     private String statement;
     private List<QuestionOptionResource> options;
-    private Long reponseId;
+    private Long responseId;
     private Long points;
 }

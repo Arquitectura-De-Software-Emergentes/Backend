@@ -12,4 +12,5 @@ public class AssessmentResource {
     private Long jobOfferId;
     private Date initialAvailableDate;
     private Date endAvailableDate;
+    private Long testId;
 }

@@ -46,6 +46,11 @@ public class AssesmentController {
     @Autowired
     VideoPresentationMapper videoPresentationMapper;
 
+    @GetMapping("{jobOfferId}")
+    public AssessmentResource GetAssessment(@RequestParam("jobOfferId") Long jobOfferId){
+        return assessmentMapper.toResource(service.getAssessmentByOfferId(jobOfferId));
+    }
+
     @PostMapping("/tests")
     public TestDetailResource CreateTest(@RequestBody CreateTestResource resource){
         return testMapper.toDetailResource(service.createTest(testMapper.toModel(resource)));
