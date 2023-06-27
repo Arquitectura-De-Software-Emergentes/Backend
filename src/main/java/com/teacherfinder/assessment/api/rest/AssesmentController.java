@@ -87,8 +87,8 @@ public class AssesmentController {
         return testMapper.toDetailResource(service.getTestActivity(testId));
     }
 
-    @GetMapping("recuiter/{recuiterId}/tests")
-    public List<TestResource> getTestByRecruiterId(@RequestParam("recuiterId") Long recruiterId){
+    @GetMapping("recruiter/{recruiterId}/tests")
+    public List<TestResource> getTestByRecruiterId(@RequestParam("recruiterId") Long recruiterId){
         return testMapper.modelListToResource(service.getTestsActivityByRecruiterId(recruiterId));
     }
 
