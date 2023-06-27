@@ -45,5 +45,5 @@ public class Question {
     @NotNull(message = "points is required")
     private Long points;
 
-    private Long responseId = 0L;
+    private Long reponseId = 0L;
 }

@@ -72,13 +72,6 @@ public class AssesmentServiceImpl implements AssesmentService {
     }
 
     @Override
-    public Assessment getAssessmentByOfferId(Long jobOfferId) {
-        return assessmentRepository.findByJobOfferId(jobOfferId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Assessment with jobOfferId " + jobOfferId + " Not Found"));
-    }
-
-    @Override
     public TestActivity createTest(TestActivity test) {
 
         Set<ConstraintViolation<TestActivity>> violations = validator.validate(test);
@@ -123,7 +116,7 @@ public class AssesmentServiceImpl implements AssesmentService {
         Boolean hasPassed = false;
 
         for (Question question : questions) {
-            if (VerifyAnswer(question.getResponseId()))
+            if (VerifyAnswer(question.getReponseId()))
                 score += question.getPoints();
         }
 
