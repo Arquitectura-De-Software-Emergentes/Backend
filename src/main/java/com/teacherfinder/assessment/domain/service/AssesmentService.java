@@ -13,6 +13,7 @@ import com.teacherfinder.assessment.domain.model.entity.TestResult;
 
 public interface AssesmentService {
     Assessment createAssessment(Long jobOfferId, Date initialAvailableDate, Date endAvailableDate);
+    Assessment getAssessmentByOfferId(Long jobOfferId);
     TestActivity GetTestByAssessmentId(Long assessmentId);
     TestResult calculateScore(Long assessmentId, Long applicantId,List<Question> questions);
     TestResult getResultByTestResultId(Long assessmentId, Long applicant);
