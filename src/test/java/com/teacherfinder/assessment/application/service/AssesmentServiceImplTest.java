@@ -159,15 +159,15 @@ import static org.mockito.Mockito.when;
 
         Question question1 = new Question();
         question1.setPoints(50L);
-        question1.setReponseId(1L);
+        question1.setResponseId(1L);
 
         Question question2 = new Question();
         question2.setPoints(30l);
-        question2.setReponseId(2L);
+        question2.setResponseId(2L);
 
         Question question3 = new Question();
         question3.setPoints(40L);
-        question3.setReponseId(3L);
+        question3.setResponseId(3L);
 
         questions.add(question1);
         questions.add(question2);
