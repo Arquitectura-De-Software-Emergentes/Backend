@@ -17,12 +17,10 @@ public class VideoPresentation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long Id;
-    @NotNull
-    Double duration;
-    String description;
+
     @NotNull
     @NotBlank
-    String urlVideo;
+    String feedback;
 
     @OneToOne
     @JoinColumn(name = "assessment_id")
