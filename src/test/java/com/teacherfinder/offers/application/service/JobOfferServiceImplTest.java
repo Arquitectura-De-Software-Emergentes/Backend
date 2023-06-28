@@ -56,7 +56,6 @@ import static org.mockito.Mockito.*;
 
     @Test
     void testCreateJobOffer() {
-        // given
         JobOffer request = new JobOffer();
         PositionProfile positionProfile = new PositionProfile();
         when(profileFactory.createPositionProfile()).thenReturn(positionProfile);
