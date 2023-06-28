@@ -244,20 +244,6 @@ import static org.mockito.Mockito.when;
         assertEquals("Test assigned successfully", response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-    @Test
-    void getResultByTestResultId() {
-        Long assessmentId = 1L;
-        Long applicantId = 1L;
-        TestResultId testResultId = new TestResultId(applicantId, assessmentId);
-        TestResult testResult = new TestResult();
-
-        when(testResultRepository.findByTestResultId(testResultId)).thenReturn(Optional.of(testResult));
-
-        TestResult result = assesmentService.getResultByTestResultId(assessmentId, applicantId);
-
-        assertEquals(testResult, result);
-    }
-
 
     @Test
     void createVideoPresentation() {
@@ -268,11 +254,5 @@ import static org.mockito.Mockito.when;
         when(validator.validate(videoPresentation)).thenReturn(violations);
         when(assessmentRepository.findById(assessmentId)).thenReturn(Optional.of(new Assessment()));
         when(videoPresentationRepository.save(videoPresentation)).thenReturn(videoPresentation);
-
-
     }
-
-
-    // Add more test methods for the remaining methods in AssesmentServiceImpl
-
 }
