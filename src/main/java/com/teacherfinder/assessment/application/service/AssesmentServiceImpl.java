@@ -183,9 +183,6 @@ public class AssesmentServiceImpl implements AssesmentService {
         if (!violations.isEmpty()) {
             throw new ResourceValidationException(VIDEO_PRESENTATION, violations);
         }
-        if (videoPresentation.getDuration() > (double) 3.00) {
-            throw new ResourceValidationException("Video should be as a max 3 minutes ");
-        }
         Assessment assessment = assessmentRepository.findById(assessmentId)
                 .orElseThrow(() -> new ResourceNotFoundException(ASSESSMENT, assessmentId));
         videoPresentation.setAssessment(assessment);

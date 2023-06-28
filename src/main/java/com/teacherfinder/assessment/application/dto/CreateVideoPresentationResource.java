@@ -7,7 +7,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateVideoPresentationResource {
-    Double duration;
-    String description;
-    String urlVideo;
+    String feedback;
 }
