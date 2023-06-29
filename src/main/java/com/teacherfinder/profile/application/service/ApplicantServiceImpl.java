@@ -69,7 +69,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
         if (!violations.isEmpty())
             throw new ResourceValidationException(PROFILE, violations);
-        return profileRepository.findById(applicantId).map(
+        return profileRepository.findByApplicantUserId(applicantId).map(
             profileDb -> profileRepository.save(profileDb
                 .withAcademicInformation(profile.getAcademicInformation())
                 .withContactInformation(profile.getContactInformation())
