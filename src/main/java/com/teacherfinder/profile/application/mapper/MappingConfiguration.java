@@ -16,4 +16,17 @@ public class MappingConfiguration {
     public JobExperienceInformationMapper jobExperienceInformationMapper(){
         return new JobExperienceInformationMapper();
     }
+    @Bean
+    public RecruiterMapper recruiterMapper(){
+        return new RecruiterMapper();
+    }
+    @Bean
+    public InstitutionProfileMapper institutionProfileMapper(){
+        return new InstitutionProfileMapper();
+    }
+
+    @Bean
+    public UserMapper userMapper(){
+        return new UserMapper();
+    }
 }

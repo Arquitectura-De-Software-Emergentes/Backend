@@ -2,20 +2,20 @@ package com.teacherfinder.profile.application.service;
 
 import java.util.Set;
 
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import com.teacherfinder.profile.domain.model.Enum.Role;
 import com.teacherfinder.profile.domain.repository.ApplicantProfileRepository;
 import org.springframework.stereotype.Service;
 
 import com.teacherfinder.profile.domain.factory.ApplicantProfileFactory;
-import com.teacherfinder.profile.domain.model.aggregate.Applicant;
+import com.teacherfinder.profile.domain.model.aggregate.User;
 import com.teacherfinder.profile.domain.model.entity.ApplicantProfile;
 import com.teacherfinder.profile.domain.model.entity.JobExperienceInformation;
 import com.teacherfinder.profile.domain.model.valueObjects.CurriculumVitae;
-import com.teacherfinder.profile.domain.repository.ApplicantRepository;
 import com.teacherfinder.profile.domain.repository.JobExperienceInformationRepository;
+import com.teacherfinder.profile.domain.repository.UserRepository;
 import com.teacherfinder.profile.domain.service.ApplicantService;
 import com.teacherfinder.shared.exception.ResourceNotFoundException;
 import com.teacherfinder.shared.exception.ResourceValidationException;
@@ -25,18 +25,16 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     private static final String APPLICANT = "applicant";
     private static final String PROFILE = "profile";
-    private final ApplicantRepository applicantRepository;
+    private final UserRepository userRepository;
     private final ApplicantProfileRepository profileRepository;
     private final JobExperienceInformationRepository experienceRepository;
     private final ApplicantProfileFactory profileFactory;
     private final Validator validator;
 
-   
-
-    public ApplicantServiceImpl(ApplicantRepository applicantRepository, ApplicantProfileRepository profileRepository,
+    public ApplicantServiceImpl(UserRepository userRepository, ApplicantProfileRepository profileRepository,
             JobExperienceInformationRepository experienceRepository, ApplicantProfileFactory profileFactory,
             Validator validator) {
-        this.applicantRepository = applicantRepository;
+        this.userRepository = userRepository;
         this.profileRepository = profileRepository;
         this.experienceRepository = experienceRepository;
         this.profileFactory = profileFactory;
@@ -44,34 +42,19 @@ public class ApplicantServiceImpl implements ApplicantService {
     }
 
     @Override
-    @Transactional
-    public Applicant create(Applicant applicant) {
-        Set<ConstraintViolation<Applicant>> violations = validator.validate(applicant);
-
-        if (!violations.isEmpty())
-            throw new ResourceValidationException(APPLICANT, violations);
-
-        applicant = applicantRepository.save(applicant);
-
-        createProfile(applicant);
-
-        return applicant;
-    }
-
-    @Override
     public CurriculumVitae uploadCV(Long applicantId, CurriculumVitae cv) {
 
-        Applicant applicant = applicantRepository.findById(applicantId)
+        User applicant = userRepository.findById(applicantId)
                 .orElseThrow(() -> new ResourceNotFoundException(APPLICANT, applicantId));
 
         applicant.setCv(cv);
 
-        return applicantRepository.save(applicant).getCv();
+        return userRepository.save(applicant).getCv();
     }
 
     @Override
     public CurriculumVitae getCv(Long applicantId) {
-        Applicant currentApplicant = applicantRepository.findById(applicantId)
+        User currentApplicant = userRepository.findById(applicantId)
                 .orElseThrow(() -> new ResourceNotFoundException(APPLICANT, applicantId));
 
         if (currentApplicant.getCv() == null) 
@@ -94,11 +77,6 @@ public class ApplicantServiceImpl implements ApplicantService {
             ).orElseThrow(() -> new ResourceNotFoundException(APPLICANT, applicantId));
     }
 
-    private void createProfile(Applicant applicant){
-        ApplicantProfile profile = profileFactory.createProfile(applicant);
-        profileRepository.save(profile);
-    }
-
     @Override
     public JobExperienceInformation addJobExperience(JobExperienceInformation experience) {
 
@@ -114,6 +92,17 @@ public class ApplicantServiceImpl implements ApplicantService {
     public ApplicantProfile getApplicantProfile(Long applicantId) {
         return profileRepository.findById(applicantId)
             .orElseThrow(()->new ResourceNotFoundException(PROFILE,applicantId));
+    }
+
+    @Override
+    public void createProfile(User applicant){
+        ApplicantProfile profile = profileFactory.createProfile(applicant);
+        profileRepository.save(profile);
+    }
+
+    @Override
+    public Boolean exist(Long userId) {
+        return userRepository.existsByUserIdAndRole(userId, Role.APPLICANT);
     }
 
 }

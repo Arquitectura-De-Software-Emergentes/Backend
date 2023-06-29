@@ -40,16 +40,13 @@ public class JobOffer {
     private Money salary;
 
     private Long maxApplications;
-    private Long numberApplications;
+    private Long numberApplications = 0L;
 
     @Enumerated(value = EnumType.STRING)
     private Availability availability;
 
     @ManyToOne
-    @JoinColumn(
-            name = "id_positions_profiles" ,
-            referencedColumnName = "id"
-    )
+    @JoinColumn(name = "id_positions_profiles")
     private PositionProfile positionProfile;
 
 }

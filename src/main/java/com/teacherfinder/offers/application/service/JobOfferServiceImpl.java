@@ -1,6 +1,6 @@
 package com.teacherfinder.offers.application.service;
 
-import com.teacherfinder.applications.api.internal.ApplicationFacade;
+import com.teacherfinder.assessment.api.internal.AssessmentFacade;
 import com.teacherfinder.offers.domain.factory.PositionProfileFactory;
 import com.teacherfinder.offers.domain.model.Enum.Availability;
 import com.teacherfinder.offers.domain.model.aggregate.JobOffer;
@@ -8,6 +8,7 @@ import com.teacherfinder.offers.domain.model.entity.PositionProfile;
 import com.teacherfinder.offers.domain.repository.JobOfferRepository;
 import com.teacherfinder.offers.domain.repository.PositionProfileRepository;
 import com.teacherfinder.offers.domain.service.JobOfferService;
+import com.teacherfinder.profile.api.internal.ProfileFacade;
 import com.teacherfinder.shared.exception.ResourceNotFoundException;
 import com.teacherfinder.shared.exception.ResourceValidationException;
 
@@ -29,16 +30,19 @@ public class JobOfferServiceImpl implements JobOfferService {
     private final PositionProfileRepository positionProfileRepository;
     private final Validator validator;
     private final PositionProfileFactory profileFactory;
-    private final ApplicationFacade applicationFacade;
+    private final AssessmentFacade assessmentFacade;
+    private final ProfileFacade profileFacade;
 
     public JobOfferServiceImpl(JobOfferRepository jobOfferRepository,
-            PositionProfileRepository positionProfileRepository, Validator validator,
-            PositionProfileFactory profileFactory, ApplicationFacade applicationFacade) {
+                               PositionProfileRepository positionProfileRepository,
+                               Validator validator, PositionProfileFactory profileFactory,
+                               AssessmentFacade assessmentFacade, ProfileFacade profileFacade) {
         this.jobOfferRepository = jobOfferRepository;
         this.positionProfileRepository = positionProfileRepository;
         this.validator = validator;
         this.profileFactory = profileFactory;
-        this.applicationFacade = applicationFacade;
+        this.assessmentFacade = assessmentFacade;
+        this.profileFacade = profileFacade;
     }
 
     @Transactional
@@ -49,9 +53,16 @@ public class JobOfferServiceImpl implements JobOfferService {
             throw new ResourceValidationException(JOB_OFFER, violations);
         }
 
+        if(!profileFacade.recruiterExist(request.getRecruiterId()))
+            throw new ResourceNotFoundException("Recruiter", request.getRecruiterId());
+
         PositionProfile positionProfile = generateEmptyPositionProfile();
 
-        return jobOfferRepository.save(request.withPositionProfile(positionProfile));
+        var jobOffer = jobOfferRepository.save(request.withPositionProfile(positionProfile));
+
+        assessmentFacade.createGenerateAssement(jobOffer.getId(),jobOffer.getInitialDate(),jobOffer.getEndDate());
+
+        return jobOffer;
     }
 
     @Override
@@ -67,6 +78,8 @@ public class JobOfferServiceImpl implements JobOfferService {
 
     @Override
     public List<JobOffer> getAllJobOfferByRecruiterId(Long recruiterId) {
+        if(!profileFacade.recruiterExist(recruiterId))
+            throw new ResourceNotFoundException("Recruiter", recruiterId);
         return jobOfferRepository.findByRecruiterId(recruiterId);
     }
 
@@ -106,40 +119,4 @@ public class JobOfferServiceImpl implements JobOfferService {
 
         return new ResponseEntity<String>("The offer has been disabled", HttpStatus.OK);
     }
-
-    @Override
-    @Transactional
-    public ResponseEntity<String> apply(Long jobOfferId, Long applicantId) {
-
-        JobOffer currentJobOffer = jobOfferRepository.findById(jobOfferId)
-            .orElseThrow(()-> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
-
-        validateApplication(currentJobOffer);
-        ResponseEntity<String> response = applicationFacade.apply(jobOfferId, applicantId);
-        
-        currentJobOffer.setNumberApplications(currentJobOffer.getNumberApplications() + 1);
-        jobOfferRepository.save(currentJobOffer);
-
-        return response;
-    }
-
-    private void validateApplication(JobOffer currentJobOffer){
-
-        if(currentJobOffer.getAvailability() == Availability.UNAVAILABLE)
-            throw new ResourceValidationException("This job offer is not available");
-        
-        if(currentJobOffer.getNumberApplications()>= currentJobOffer.getMaxApplications()){
-            this.disable(currentJobOffer.getId());
-            throw new ResourceValidationException("this job offer don't have positions available to apply");
-        }
-        
-    }
-
-    private JobOffer updateJobOffer(Long jobOfferId, JobOffer request){
-        return jobOfferRepository.findById(jobOfferId).map(
-                offer -> jobOfferRepository.save(offer
-                        .withNumberApplications(request.getNumberApplications())))
-                .orElseThrow(() -> new ResourceNotFoundException(JOB_OFFER, jobOfferId));
-    }
-
 }

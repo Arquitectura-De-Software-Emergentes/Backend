@@ -20,7 +20,7 @@ import java.util.List;
         RequestMethod.DELETE
 })
 @RestController
-@RequestMapping("/job-offers")
+@RequestMapping("/api/v1/job-offers")
 public class JobOfferController {
    @Autowired
     private  JobOfferService jobOfferService;
@@ -36,11 +36,6 @@ public class JobOfferController {
     @PostMapping
     public JobOfferResource createJobOffer(@RequestBody CreateJobOfferResource createJobOfferResource) {
         return jobOfferMapper.toResource(jobOfferService.createJobOffer(jobOfferMapper.toModel(createJobOfferResource)));
-    }
-
-    @PostMapping("{jobOfferId}/apply/{applicantId}")
-    public ResponseEntity<String> apply(@PathVariable("jobOfferId") Long jobOfferId, @PathVariable("applicantId") Long applicantId){
-        return jobOfferService.apply(jobOfferId, applicantId);
     }
 
     @GetMapping("/{id}")

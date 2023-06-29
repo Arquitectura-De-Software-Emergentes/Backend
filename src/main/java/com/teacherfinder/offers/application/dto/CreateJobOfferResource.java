@@ -23,7 +23,6 @@ public class CreateJobOfferResource {
     private Money salary;
 
     private Long maxApplications;
-    private Long numberApplications;
 
     @Enumerated(value = EnumType.STRING)
     private Availability availability;

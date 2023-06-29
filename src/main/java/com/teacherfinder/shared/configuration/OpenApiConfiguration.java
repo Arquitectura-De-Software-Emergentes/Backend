@@ -20,9 +20,9 @@ public class OpenApiConfiguration {
                         .version(applicationVersion)
                         .description(applicationDescription)
                         .termsOfService("https://acme-budget.com/terms")
-                        .license(new License().name("Apache 2.0 License").url("https://acme-budget.com/license"))
+                        .license(new License().name("Apache 2.0 License").url("https://teacher-finder.com/license"))
                         .contact(new Contact()
-                                .url("https://acme.studio")
-                                .name("ACME.studio")));
+                                .url("https://teacher-finder.studio")
+                                .name("teacher-finder.studio")));
     }
 }
