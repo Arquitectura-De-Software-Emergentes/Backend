@@ -90,7 +90,7 @@ public class ApplicantServiceImpl implements ApplicantService {
 
     @Override
     public ApplicantProfile getApplicantProfile(Long applicantId) {
-        return profileRepository.findById(applicantId)
+        return profileRepository.findByApplicantUserId(applicantId)
             .orElseThrow(()->new ResourceNotFoundException(PROFILE,applicantId));
     }
 
