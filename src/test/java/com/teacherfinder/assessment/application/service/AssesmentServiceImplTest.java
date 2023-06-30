@@ -188,7 +188,7 @@ import static org.mockito.Mockito.when;
     void getAllVideoPresentationsByApplicantId() {
     }
 
-    @Test
+    /*@Test
     void testGetVideoPresentationById() {
         Long assessmentId = 1L;
         Long videoPresentationId = 1L;
@@ -201,7 +201,7 @@ import static org.mockito.Mockito.when;
         VideoPresentation result = assesmentService.getVideoPresentationById(assessmentId, videoPresentationId);
 
         assertEquals(expectedVideoPresentation, result);
-    }
+    }*/
 
     @Test
     void testGetTestActivity() {

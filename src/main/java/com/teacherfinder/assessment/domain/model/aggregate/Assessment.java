@@ -3,8 +3,10 @@ package com.teacherfinder.assessment.domain.model.aggregate;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,8 +33,8 @@ public class Assessment {
     private Date initialAvailableDate;
     private Date endAvailableDate;
 
-    @OneToOne
-    @JoinColumn(name = "test_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "test_id", nullable = true)
     private TestActivity test;
      
     @OneToOne(mappedBy = "assessment")
