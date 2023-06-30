@@ -7,5 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateVideoPresentationResource {
-    String feedback;
+    
+    private Long applicantId;
+    private String feedback;
+    
 }
