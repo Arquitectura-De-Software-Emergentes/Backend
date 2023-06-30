@@ -26,8 +26,8 @@ public interface AssesmentService {
 
 
     VideoPresentation createVideoPresentation (Long assessmentId ,VideoPresentation  videoPresentation);
-    List<VideoPresentation> getAllVideoPresentationsByApplicantId();
-    VideoPresentation getVideoPresentationById(Long assessmentId, Long Id);
+    List<VideoPresentation> getAllVideoPresentationsByApplicantId(Long applicantId);
+    VideoPresentation getVideoPresentationByAssessmentIdAndApplicantId(Long assessmentId, Long applicantId);
 
 
 }

@@ -61,7 +61,8 @@ public class AssesmentServiceImpl implements AssesmentService {
     @Override
     public Assessment createAssessment(Long jobOfferId, Date initialAvailableDate, Date endAvailableDate) {
 
-        Assessment assessment = assessmentFactory.generateAssessment(jobOfferId, initialAvailableDate, endAvailableDate);
+        Assessment assessment = assessmentFactory.generateAssessment(jobOfferId, initialAvailableDate,
+                endAvailableDate);
 
         Set<ConstraintViolation<Assessment>> violations = validator.validate(assessment);
 
@@ -190,17 +191,17 @@ public class AssesmentServiceImpl implements AssesmentService {
     }
 
     @Override
-    public List<VideoPresentation> getAllVideoPresentationsByApplicantId() {
-        return null;
+    public List<VideoPresentation> getAllVideoPresentationsByApplicantId(Long applicantId) {
+        return videoPresentationRepository.findByApplicantId(applicantId);
     }
 
     @Override
-    public VideoPresentation getVideoPresentationById(Long assessmentId, Long iD) {
+    public VideoPresentation getVideoPresentationByAssessmentIdAndApplicantId(Long assessmentId, Long applicantId) {
         if (!assessmentRepository.existsById(assessmentId)) {
             throw new ResourceNotFoundException(ASSESSMENT, assessmentId);
         }
-        return videoPresentationRepository.findById(iD)
-                .orElseThrow(() -> new ResourceNotFoundException(VIDEO_PRESENTATION, iD));
+        return videoPresentationRepository.findByAssessmentAssessmentIdAndApplicantId(assessmentId, applicantId)
+                .orElseThrow(() -> new ResourceNotFoundException("The video of job offer " + assessmentId + "and of applicant " + applicantId + "not found"));
     }
 
     @Override

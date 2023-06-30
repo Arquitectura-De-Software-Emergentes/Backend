@@ -82,9 +82,14 @@ public class AssesmentController {
 
     }
 
-    @GetMapping("{jobOfferId}/video-presentations{videoId}")
-    public VideoPresentationResource GetVideoPresentationtById(@RequestParam("jobOfferId") Long assessmentId,@RequestParam("videoId") Long videoId ){
-        return videoPresentationMapper.toResource(service.getVideoPresentationById(assessmentId,videoId));
+    @GetMapping("{jobOfferId}/applicants/{applicantId}/video-presentations")
+    public VideoPresentationResource GetVideoPresentationtById(@RequestParam("jobOfferId") Long assessmentId,@RequestParam("applicantId") Long applicantId ){
+        return videoPresentationMapper.toResource(service.getVideoPresentationByAssessmentIdAndApplicantId(assessmentId,applicantId));
+    }
+
+    @GetMapping("/applicants/{applicantId}/video-presentations")
+    public List<VideoPresentationResource> getVideoPresentationsByApplicantId(@RequestParam("applicantId") Long applicantId){
+        return videoPresentationMapper.modelListToResource(service.getAllVideoPresentationsByApplicantId(applicantId));
     }
 
     @GetMapping("tests/{testId}")
